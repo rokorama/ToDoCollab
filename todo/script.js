@@ -1,4 +1,4 @@
-const outputContainer = document.getElementById('entryContainer')
+const outputContainer = document.querySelector('.entryContainer')
 const addButton = document.getElementById('addButton')
 
 addButton.addEventListener('click', () => {
@@ -45,7 +45,7 @@ function saveEntry() {
         entryType = '';
         entryContent = '';
         entryEndDate = null;
-        // render all tasks including the new one here
+        getEntries()
     })
 }
 
@@ -63,7 +63,7 @@ function getEntries() {
 function render(entries) {
     entries.forEach(entry => {
         const div = document.createElement('div');
-        div.id = 'containerItem'
+        div.className = 'entryItem'
 
         const type = document.createElement('p');
         type.id = 'entryType';
@@ -91,8 +91,14 @@ function render(entries) {
     })
 }
 
-function deleteEntry() {
-    
+async function deleteEntry(entryId) {
+    const del = await fetch(`https://testapi.io/api/SurkusAPI/resource/ToDoList/${entryId}`, {
+        method: 'DELETE'
+    })
+
+    if (del) {
+        getEntries()
+    }
 }
 
 getEntries()

@@ -1,11 +1,11 @@
-#newEntryContainer {
+.newEntryContainer {
     border: 1px solid gold;
 }
 
-#entryContainer {
+.entryContainer {
     border: 1px solid crimson
 }
 
-#entryItem {
+.entryItem {
     border: 1px solid skyblue
 }
