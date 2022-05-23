@@ -1,3 +1,8 @@
+// ############
+// # Graphics #
+// ############
+//#region 
+
 function setFormMessage(formElement, type, message){
     const messageElement = formElement.querySelector(".form_message");
 
@@ -54,13 +59,16 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 });
 
+//#endregion
+
 // ###############
 // # CREATE USER #
 // ###############
+//#region 
 
-const submitButton = document.querySelector("#submitCreate");
+const submitCreate = document.querySelector("#submitCreate");
 
-submitButton.addEventListener("click", event => {
+submitCreate.addEventListener("click", event => {
 
     event.preventDefault();
     let name = document.querySelector("#signUpUserName");
@@ -98,3 +106,60 @@ function PostData(name, lastName, email){
     })
   }
 
+//#endregion
+
+// #############################
+// # Log In with existing user #
+// #############################
+//#region 
+
+const submitLogin = document.querySelector("#submitLogin");
+
+submitLogin.addEventListener("click", event => {
+
+    event.preventDefault();
+    let name = document.querySelector("#UserName");
+    let lastName = document.querySelector("#UserLastName");
+
+    // PostData(name.value, lastName.value, email.value);
+})
+
+// fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
+// .then(function (response) {
+//     return response.json();
+// })
+// .then(function(data){
+//     console.log('the data', data)
+// })
+
+
+fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
+    .then((response) => {
+        if (response.ok) {
+        console.log('👍 Connection Ok');
+        return response.json();
+        } else {
+        console.log('👎 Connection not Ok');
+        }
+    })
+    .then(response => renderData(response.data))
+    //  .then(data => console.log(data, typeof data))
+    // .then(data => renderData(data))
+
+    
+    
+function renderData(data){
+    // const elem1 = data.LastName;
+    // console.log(elem1)
+    data.forEach(element => {
+        //let name = segment.Name
+        console.log(element)
+        console.log(element.id)
+        console.log(element.Name)
+        console.log(element.LastName)
+        console.log(element.Email)
+        console.log(element.createdAt)
+    })
+}
+
+//#endregion
