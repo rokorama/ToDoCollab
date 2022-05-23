@@ -1,3 +1,11 @@
 #newEntryContainer {
     border: 1px solid gold;
 }
+
+#entryContainer {
+    border: 1px solid crimson
+}
+
+#entryItem {
+    border: 1px solid skyblue
+}
