@@ -124,14 +124,6 @@ submitLogin.addEventListener("click", event => {
     // PostData(name.value, lastName.value, email.value);
 })
 
-// fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
-// .then(function (response) {
-//     return response.json();
-// })
-// .then(function(data){
-//     console.log('the data', data)
-// })
-
 
 fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
     .then((response) => {
