@@ -39,13 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         //fetch login
 
-        setFormMessage(loginForm, "error", "Neteisingas vartotojas/slaptažodis!")
+        setFormMessage(loginForm, "error", "Neteisingas vardas/pavardė")
     });
 
     document.querySelectorAll(".form_input").forEach(inputElement => {
         inputElement.addEventListener("blur", event => {
             if (event.target.id === "signUpUserName" && event.target.value.length > 0 && event.target.value.length < 5) {
-                setInputError(inputElement, "Vartotojas turi turėti bent 5 simbolius!");
+                setInputError(inputElement, "Lauke turi būti bent 5 simboliai!");
             }
         });
         inputElement.addEventListener("input", event => {
@@ -53,3 +53,48 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     })
 });
+
+// ###############
+// # CREATE USER #
+// ###############
+
+const submitButton = document.querySelector("#submitCreate");
+
+submitButton.addEventListener("click", event => {
+
+    event.preventDefault();
+    let name = document.querySelector("#signUpUserName");
+    let lastName = document.querySelector("#signUpUserLastName");
+    let email = document.querySelector("#signUpUserEmail")
+
+    PostData(name.value, lastName.value, email.value);
+})
+
+function PostData(name, lastName, email){
+    fetch('https://testapi.io/api/SurkusAPI/resource/ToDo', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      Name: `${name}`,
+      LastName: `${lastName}`,
+      Email: `${email}`,
+    })
+  })
+    .then((response) => {
+      if (response.ok) {
+        console.log('👍 Connection Ok');
+        return response.json();
+      } else {
+        console.log('👎 Connection not Ok');
+      }
+    })
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
