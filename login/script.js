@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ###############
 //#region 
 
+
 const submitCreate = document.querySelector("#submitCreate");
 
 submitCreate.addEventListener("click", event => {
@@ -75,7 +76,33 @@ submitCreate.addEventListener("click", event => {
     let lastName = document.querySelector("#signUpUserLastName");
     let email = document.querySelector("#signUpUserEmail")
 
+    DuplicationCheck(name, lastName);
+    // console.log(duplicationCheck, typeof duplicationCheck)
+
+    console.log(sessionStorage.getItem('bool'))
+  if(!sessionStorage.getItem('bool')){
     PostData(name.value, lastName.value, email.value);
+
+    const loginForm = document.querySelector('#login')
+    const createAccountForm = document.querySelector('#createAccount')
+
+    alert("Vartotojas sukurtas => bandykite jungtis!")
+
+    setFormMessage(createAccountForm, "success", "Vartotojas sukurtas!")
+
+    // await (3000)
+
+    loginForm.classList.remove("form-hidden");
+    createAccountForm.classList.add("form-hidden");
+
+  } else {
+    alert("(!) Toks vartotojas jau egzistuoja!");
+  }
+
+  
+
+
+
 })
 
 function PostData(name, lastName, email){
@@ -124,27 +151,20 @@ submitLogin.addEventListener("click", event => {
     // PostData(name.value, lastName.value, email.value);
 })
 
-
+// #region CONSOLE.LOG(USERS)
 fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
-    .then((response) => {
-        if (response.ok) {
-        console.log('👍 Connection Ok');
-        return response.json();
-        } else {
-        console.log('👎 Connection not Ok');
-        }
-    })
-    .then(response => renderData(response.data))
-    //  .then(data => console.log(data, typeof data))
-    // .then(data => renderData(data))
-
-    
-    
-function renderData(data){
-    // const elem1 = data.LastName;
-    // console.log(elem1)
+  .then((response) => {
+      if (response.ok) {
+      console.log('👍 Connection Ok');
+      return response.json();
+      } else {
+      console.log('👎 Connection not Ok');
+      }
+  })
+  .then(response => renderData(response.data))
+  
+  function renderData(data){
     data.forEach(element => {
-        //let name = segment.Name
         console.log(element)
         console.log(element.id)
         console.log(element.Name)
@@ -152,6 +172,37 @@ function renderData(data){
         console.log(element.Email)
         console.log(element.createdAt)
     })
+  }
+//#endregion
+
+function DuplicationCheck(name, lastName){
+  fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
+  .then((response) => {
+      if (response.ok) {
+      console.log('👍 Connection Ok');
+      return response.json();
+      } else {
+      console.log('👎 Connection not Ok');
+      }
+  })
+  .then(response => DataCheck(response.data, name, lastName))
+  // console.log("FuncRe_result:", typeof chekedData, chekedData)
+  // return chekedData;
+  
 }
 
-//#endregion
+function DataCheck(data, name, lastName){
+
+  window.sessionStorage.clear();
+  data.forEach(element => {
+    console.log(element.LastName, lastName.value)
+    if(element.LastName == lastName.value){
+      console.log(name.value, lastName.value)
+      window.sessionStorage.setItem('bool', 'true')
+    } else {
+      window.sessionStorage.setItem('bool', 'false')
+    }
+  })
+    console.log("IF_result:", typeof window.sessionStorage.getItem('bool'), window.sessionStorage.getItem('bool'))
+}
+// #endregion
