@@ -87,7 +87,7 @@ submitCreate.addEventListener("click", event => {
         }
     })
 
-    .then(response => DataCheck(response.data, email))
+    .then(response => DataCheck_SS(response.data, email))
     // console.log('10000000', dc)
     // console.log(duplicationCheck, typeof duplicationCheck)
 
@@ -162,7 +162,26 @@ submitLogin.addEventListener("click", event => {
     let name = document.querySelector("#UserName");
     let lastName = document.querySelector("#UserLastName");
 
-    // PostData(name.value, lastName.value, email.value);
+    fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
+    .then((response) => {
+        if (response.ok) {
+        console.log('👍 Connection Ok');
+        return response.json();
+        } else {
+        console.log('👎 Connection not Ok');
+        }
+    })
+
+    .then(response => DataCheck_SS2(response.data, name, lastName))
+
+    const localSessionStorage = sessionStorage.getItem('bool2')
+    console.log ("2 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
+    if(localSessionStorage == 'true'){
+      //window.location.href = "http://127.0.0.1:5500/todo/todo.html"
+      alert("(!) Toks vartotojas rastas!");
+    } else {
+      alert("(!) Toks vartotojas nerastas!");
+    }
 })
 
 // #region CONSOLE.LOG(USERS)
@@ -193,7 +212,7 @@ fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
  
 // }
 
-function DataCheck(data, email){
+function DataCheck_SS(data, email){
 
   sessionStorage.setItem('bool', 'false');
 
@@ -209,6 +228,27 @@ function DataCheck(data, email){
   sessionStorage.setItem('bool', `${tempArray.includes(email.value)}`)
 
   console.log("1 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
+  
+  return null;
+}
+
+
+function DataCheck_SS2(data, name, lastName){
+
+  sessionStorage.setItem('bool2', 'false');
+
+  let tempArray = [];
+  
+  data.forEach(element => {
+    tempArray.push(element.Name)
+  });
+
+  console.log(tempArray)
+  console.log('lyginame su paduotu', name.value)
+  
+  sessionStorage.setItem('bool2', `${tempArray.includes(name.value)}`)
+
+  console.log("1 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
   
   return null;
 }
