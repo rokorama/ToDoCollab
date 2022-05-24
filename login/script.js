@@ -76,11 +76,27 @@ submitCreate.addEventListener("click", event => {
     let lastName = document.querySelector("#signUpUserLastName");
     let email = document.querySelector("#signUpUserEmail")
 
-    DuplicationCheck(name, lastName);
+    // const dc = DuplicationCheck(email);
+    fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
+    .then((response) => {
+        if (response.ok) {
+        console.log('👍 Connection Ok');
+        return response.json();
+        } else {
+        console.log('👎 Connection not Ok');
+        }
+    })
+
+    .then(response => DataCheck(response.data, email))
+    // console.log('10000000', dc)
     // console.log(duplicationCheck, typeof duplicationCheck)
 
-    console.log(sessionStorage.getItem('bool'))
-  if(!sessionStorage.getItem('bool')){
+    console.log("2 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
+    const localSessionStorage = sessionStorage.getItem('bool')
+
+    console.log("3 => Bool_result:", localSessionStorage);
+
+  if(localSessionStorage == 'false'){
     PostData(name.value, lastName.value, email.value);
 
     const loginForm = document.querySelector('#login')
@@ -90,8 +106,6 @@ submitCreate.addEventListener("click", event => {
 
     setFormMessage(createAccountForm, "success", "Vartotojas sukurtas!")
 
-    // await (3000)
-
     loginForm.classList.remove("form-hidden");
     createAccountForm.classList.add("form-hidden");
 
@@ -99,9 +113,9 @@ submitCreate.addEventListener("click", event => {
     alert("(!) Toks vartotojas jau egzistuoja!");
   }
 
-  
-
-
+  // let name = document.querySelector("#signUpUserName");
+  // let lastName = document.querySelector("#signUpUserLastName");
+  // let email = document.querySelector("#signUpUserEmail")
 
 })
 
@@ -175,34 +189,27 @@ fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
   }
 //#endregion
 
-function DuplicationCheck(name, lastName){
-  fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
-  .then((response) => {
-      if (response.ok) {
-      console.log('👍 Connection Ok');
-      return response.json();
-      } else {
-      console.log('👎 Connection not Ok');
-      }
-  })
-  .then(response => DataCheck(response.data, name, lastName))
-  // console.log("FuncRe_result:", typeof chekedData, chekedData)
-  // return chekedData;
+// async function  DuplicationCheck(email){
+ 
+// }
+
+function DataCheck(data, email){
+
+  sessionStorage.setItem('bool', 'false');
+
+  let tempArray = [];
   
-}
-
-function DataCheck(data, name, lastName){
-
-  window.sessionStorage.clear();
   data.forEach(element => {
-    console.log(element.LastName, lastName.value)
-    if(element.LastName == lastName.value){
-      console.log(name.value, lastName.value)
-      window.sessionStorage.setItem('bool', 'true')
-    } else {
-      window.sessionStorage.setItem('bool', 'false')
-    }
-  })
-    console.log("IF_result:", typeof window.sessionStorage.getItem('bool'), window.sessionStorage.getItem('bool'))
+    tempArray.push(element.Email)
+  });
+
+  console.log(tempArray)
+  console.log('lyginame su paduotu', email.value)
+  
+  sessionStorage.setItem('bool', `${tempArray.includes(email.value)}`)
+
+  console.log("1 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
+  
+  return null;
 }
 // #endregion
