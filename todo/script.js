@@ -16,6 +16,19 @@ cancelButton.addEventListener('click', () => {
 const saveButton = document.getElementById('saveEntry')
 saveButton.addEventListener('click', () => saveEntry())
 
+const dateInput = document.getElementById('newEntryEndDate')
+dateInput.addEventListener('blur', () => {
+    console.log(dateInput.value)
+    let date1 = new Date(dateInput.value)
+    let date2 = new Date()
+    console.log(date1, date2)
+    if (date1 < date2) {
+        alert("Cannot assign task to a past date!")
+        console.log('nope')
+        dateInput.innerHTML = ""
+    }
+})
+
 function saveEntry() {
     let entryType = document.getElementById('newEntryType').value;
     let entryContent = document.getElementById('newEntryContent').value;
@@ -44,8 +57,6 @@ function saveEntry() {
         console.log(result);
         entryType = '';
         entryContent = '';
-        // add check for past dates
-        // add time functionality?
         entryEndDate = null;
         getEntries()
     })
@@ -67,7 +78,7 @@ function render(entries) {
         const div = document.createElement('div');
         div.className = 'entryItem'
 
-        // rename 'type' to something else or else it causes nightmares below
+        // rename variables cause it causes nightmares below
         const type = document.createElement('p');
         type.id = 'entryType';
         type.textContent = entry.type;
@@ -81,26 +92,22 @@ function render(entries) {
         endDate.id = 'entryEndDate';
         endDate.textContent = entry.endDate;
 
+        
         const editButton = document.createElement('button');
         editButton.textContent = 'EDIT';
         editButton.addEventListener('click', (event) => {
-            // create input form in div
-            // type.outerHTML = (`<input type="text" id="editedType" value=${entry.type}>`);
             type.outerHTML = (`<input type="text" id="editedType">`);
             editedType.value = entry.type
-            // content.outerHTML = (`<input type="text" id="editedContent" value=${entry.content}>`);
             content.outerHTML = (`<input type="text" id="editedContent">`);
             editedContent.value = entry.content
             endDate.outerHTML = (`<input type="date" id="editedEndDate" value=${entry.endDate}>`);
-            
-            // entryType.setAttribute('contentEditable', 'true')
-            // entryContent.setAttribute('contentEditable', 'true')
-            // entryEndDate.setAttribute('contentEditable', 'true')
+            editedEndDate.value = entry.endDate
             
             const elementId = event.target.parentElement.id;
-
+            
             console.log(type.textContent, content.textContent, endDate.textContent)
-
+            
+            //add cancel button to discard changes
             
             const confirmEditButton = document.createElement('button');
             confirmEditButton.textContent = 'SAVE CHANGES';
