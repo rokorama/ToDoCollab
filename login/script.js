@@ -128,13 +128,15 @@ submitLogin.addEventListener("click", event => {
 
     .then(response => DataCheck_By_NameLastName(response.data, name, lastName))
 
-    const localSessionStorage = sessionStorage.getItem('bool2')
+    const localSessionStorage = sessionStorage.getItem('bool2' && 'bool3')
 
     console.log ("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
     
     if(localSessionStorage == 'true'){
       alert("(!) Toks vartotojas rastas!");
-      //window.location.href = "http://127.0.0.1:5500/todo/todo.html"
+      window.location.href = "todo.html"
+      console.log('Perduodamas', typeof localStorage.getItem('name'))
+      console.log('Perduodamas', typeof localStorage.getItem('lastName'))
     } else {
       alert("(!) Toks vartotojas nerastas!");
     }
@@ -217,14 +219,26 @@ function DataCheck_By_NameLastName(data, name, lastName){
   console.log('Pavardžių array:', tempArrayLastNames)
   console.log('Value iš formos: ', typeof name.value, name.value, 'ir', typeof lastName.value, lastName.value)
   
-  sessionStorage.setItem('bool2', `${tempArrayNames.includes(name.value, lastName.value)}`)
-  sessionStorage.setItem('bool2', `${tempArrayLastNames.includes(name.value, lastName.value)}`)
+  sessionStorage.setItem('bool2', `${tempArrayNames.includes(name.value)}`)
+  sessionStorage.setItem('bool3', `${tempArrayLastNames.includes(lastName.value)}`)
 
   console.log("👀 CHECK 1 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
+
+  PassData(name, lastName)
 
   return null;
 }
 // #endregion
+
+//#region HELPER PASSDATA
+
+  function PassData(name, lastName){
+    localStorage.clear();
+    localStorage.setItem('name', name.value);
+    localStorage.setItem('lastName', lastName.value);
+  }
+
+//#endregion
 
 // #region HELPER CONSOLE.LOG(USERS)
 fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
