@@ -75,7 +75,7 @@ function getEntries() {
 function render(entries) {
     entries.forEach(entry => {
         const div = document.createElement('div');
-        div.className = 'entryItem'
+        div.className = 'entryItem';
 
         // rename variables cause it causes nightmares below
         const type = document.createElement('p');
@@ -94,7 +94,6 @@ function render(entries) {
         const editedType = document.createElement('input');
         editedType.type = 'text'
         editedType.style.display = 'none'
-
         
         const editedContent = document.createElement('input');
         editedContent.type = 'text'
@@ -150,7 +149,6 @@ function render(entries) {
             let updatedEndDate = editedEndDate.value
             console.log(updatedType, updatedContent, updatedEndDate)
             editEntry(elementId, updatedType, updatedContent, updatedEndDate)
-            
         })
 
         discardChangesButton.addEventListener('click', () => {
@@ -174,10 +172,6 @@ function render(entries) {
         outputContainer.append(div);
 
     })
-}
-
-function toggleEdit(entry) {
-
 }
 
 async function editEntry(entryId, newType, newContent, newEndDate) {

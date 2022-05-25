@@ -3,10 +3,17 @@
 }
 
 .entryContainer {
-    border: 1px solid crimson
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 1px solid crimson;
+    width: 75%;
+    margin: auto;
 }
 
 .entryItem {
     display: block;
-    border: 1px solid skyblue
+    border: 1px solid skyblue;
+    min-width: 33%;
+    width: 33%;
 }
