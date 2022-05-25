@@ -24,7 +24,6 @@ dateInput.addEventListener('blur', () => {
     console.log(date1, date2)
     if (date1 < date2) {
         alert("Cannot assign task to a past date!")
-        console.log('nope')
         dateInput.innerHTML = ""
     }
 })
@@ -91,49 +90,94 @@ function render(entries) {
 
         endDate.id = 'entryEndDate';
         endDate.textContent = entry.endDate;
+        
+        const editedType = document.createElement('input');
+        editedType.type = 'text'
+        editedType.style.display = 'none'
 
         
+        const editedContent = document.createElement('input');
+        editedContent.type = 'text'
+        editedContent.style.display = 'none'
+
+        const editedEndDate = document.createElement('input');
+        editedEndDate.type = 'date'
+        editedEndDate.style.display = 'none'
+
+        const deleteEntryButton = document.createElement('button');
+        deleteEntryButton.textContent = 'DELETE';
+
+        const saveChangesButton = document.createElement('button');
+        saveChangesButton.textContent = 'SAVE CHANGES';
+        saveChangesButton.style.display = 'none'
+
+        const discardChangesButton = document.createElement('button');
+        discardChangesButton.textContent = 'DISCARD CHANGES';
+        discardChangesButton.style.display = 'none'
+
         const editButton = document.createElement('button');
         editButton.textContent = 'EDIT';
-        editButton.addEventListener('click', (event) => {
-            type.outerHTML = (`<input type="text" id="editedType">`);
-            editedType.value = entry.type
-            content.outerHTML = (`<input type="text" id="editedContent">`);
-            editedContent.value = entry.content
-            endDate.outerHTML = (`<input type="date" id="editedEndDate" value=${entry.endDate}>`);
-            editedEndDate.value = entry.endDate
-            
-            const elementId = event.target.parentElement.id;
-            
-            console.log(type.textContent, content.textContent, endDate.textContent)
-            
-            //add cancel button to discard changes
-            
-            const confirmEditButton = document.createElement('button');
-            confirmEditButton.textContent = 'SAVE CHANGES';
-            div.append(confirmEditButton);
-            
-            
-            confirmEditButton.addEventListener('click', () => {
-                let updatedType = document.getElementById('editedType').value
-                let updatedContent = document.getElementById('editedContent').value
-                let updatedEndDate = document.getElementById('editedEndDate').value
-                console.log(updatedType, updatedContent, updatedEndDate)
-                editEntry(elementId, updatedType, updatedContent, updatedEndDate)
-            })
-        })
+        editButton.addEventListener('click', () => {
+            editedType.style.display = 'block'
+            editedContent.style.display = 'block'
+            editedEndDate.style.display = 'block'
 
-        const delButton = document.createElement('button');
-        delButton.textContent = 'DELETE';
-        delButton.addEventListener('click', (event) => {
+            editedType.value = entry.type;
+            editedContent.value = entry.content;
+            editedEndDate.value = entry.endDate;
+
+            type.style.display = 'none'
+            content.style.display = 'none'
+            endDate.style.display = 'none'
+
+            editButton.style.display = 'none'
+            deleteEntryButton.style.display = 'none'
+
+            saveChangesButton.style.display = 'block'
+            discardChangesButton.style.display = 'block'
+        })
+        
+        deleteEntryButton.addEventListener('click', (event) => {
             const elementId = event.target.parentElement.id;
             deleteEntry(elementId);
         })
         
-        div.append(type, content, endDate, editButton, delButton);
+        saveChangesButton.addEventListener('click', (event) => {
+            const elementId = event.target.parentElement.id;
+
+            let updatedType = editedType.value
+            let updatedContent = editedContent.value
+            let updatedEndDate = editedEndDate.value
+            console.log(updatedType, updatedContent, updatedEndDate)
+            editEntry(elementId, updatedType, updatedContent, updatedEndDate)
+            
+        })
+
+        discardChangesButton.addEventListener('click', () => {
+            editedType.style.display = 'none'
+            editedContent.style.display = 'none'
+            editedEndDate.style.display = 'none'
+
+            type.style.display = 'block'
+            content.style.display = 'block'
+            endDate.style.display = 'block'
+
+            editButton.style.display = 'block'
+            deleteEntryButton.style.display = 'block'
+
+            saveChangesButton.style.display = 'none'
+            discardChangesButton.style.display = 'none'
+        })
+
+        div.append(type, content, endDate, editedType, editedContent, editedEndDate, editButton, deleteEntryButton, saveChangesButton, discardChangesButton);
         div.setAttribute('id', entry.id);
         outputContainer.append(div);
+
     })
+}
+
+function toggleEdit(entry) {
+
 }
 
 async function editEntry(entryId, newType, newContent, newEndDate) {
@@ -152,7 +196,6 @@ async function editEntry(entryId, newType, newContent, newEndDate) {
     if (edit) {
         getEntries()
     }
-
 }
 
 async function deleteEntry(entryId) {
