@@ -8,7 +8,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>hi!</h1>
-<script src="script.js"></script>
+        <div class="newEntryContainer">
+            <button type="button" id="addButton">ADD TASK</button>
+            <div id="newEntryInput" style="display:none">
+                <p>Type</p>
+                <input type="text" name="newEntryType" id="newEntryType">
+                <br>
+                <p>Content</p>
+                <input type="text" name="newEntryContent" id="newEntryContent">
+                <br>
+                <p>End date</p>
+                <input type="date" name="newEntryEndDate" id="newEntryEndDate">
+                <br>
+                <button id="saveEntry">SAVE</button>
+                <button id="cancelEntry">CANCEL</button>
+            </div>
+        </div>
+    <div class="entryContainer">
+    </div>
 </body>
-</html>
+<script src="script.js"></script>
+</html
