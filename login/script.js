@@ -1,3 +1,5 @@
+//#region GRAPHICS
+
 function setFormMessage(formElement, type, message){
     const messageElement = formElement.querySelector(".form_message");
 
@@ -54,33 +56,121 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 });
 
-// ###############
-// # CREATE USER #
-// ###############
+//#endregion
 
-const submitButton = document.querySelector("#submitCreate");
+//#region REGISTER
 
-submitButton.addEventListener("click", event => {
+const submitCreate = document.querySelector("#submitCreate");
 
-    event.preventDefault();
-    let name = document.querySelector("#signUpUserName");
-    let lastName = document.querySelector("#signUpUserLastName");
-    let email = document.querySelector("#signUpUserEmail")
+submitCreate.addEventListener("click", event => {
 
-    PostData(name.value, lastName.value, email.value);
+  event.preventDefault();
+  let name = document.querySelector("#signUpUserName");
+  let lastName = document.querySelector("#signUpUserLastName");
+  let email = document.querySelector("#signUpUserEmail")
+
+  MiniAsyncHelperReg(name, lastName, email);
 })
 
+//#endregion
+
+//#region ASYNC_HELPER_REG
+
+async function MiniAsyncHelperReg(name, lastName, email) {
+  
+  let users = [];
+  
+  users = await AsyncFetch();
+
+  DataCheck_By_Email(users.data, email)
+
+  console.log("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
+  const localSessionStorage = sessionStorage.getItem('bool')
+
+  console.log("👀 CHECK 3 => Bool_result:", localSessionStorage);
+
+  if(localSessionStorage == 'false'){
+    PostData(name.value, lastName.value, email.value);
+
+    const loginForm = document.querySelector('#login')
+    const createAccountForm = document.querySelector('#createAccount')
+
+    alert("✅ Vartotojas sukurtas!")
+
+    setFormMessage(createAccountForm, "success", "Vartotojas sukurtas!")
+
+    loginForm.classList.remove("form-hidden");
+    createAccountForm.classList.add("form-hidden");
+
+  } else {
+    alert("⚠️ Toks vartotojas jau egzistuoja!");
+  }
+
+}
+
+//#endregion
+
+//#region LOGIN
+
+const submitLogin = document.querySelector("#submitLogin");
+
+submitLogin.addEventListener("click", event => {
+
+  event.preventDefault();
+  let name = document.querySelector("#UserName");
+  let lastName = document.querySelector("#UserLastName");
+
+  console.log(name, lastName)
+  console.log(name.value, lastName.value)
+
+  MiniAsyncHelper_Log(name, lastName)
+  
+})
+
+//#endregion
+
+//#region ASYNC_HELPER_LOGIN
+
+async function MiniAsyncHelper_Log(name, lastName) {
+  
+  let users = [];
+  
+  users = await AsyncFetch();
+
+  DataCheck_By_NameLastName(users.data, name, lastName)
+
+  const localSessionStorage = sessionStorage.getItem('bool2' && 'bool3')
+
+  console.log ("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
+  
+  if(localSessionStorage == 'true'){
+    alert("🆔 Vartotojas rastas!");
+    window.location.href = "todo.html"
+    // window.location.replace("todo.html")
+
+    console.log('Perduodamas', typeof localStorage.getItem('name'))
+    console.log('Perduodamas', typeof localStorage.getItem('lastName'))
+  } else {
+    alert("⚠️ Vartotojas NERASTAS");
+  }
+
+}
+
+//#endregion
+
+//#region HELPER_POSTDATA
+
 function PostData(name, lastName, email){
-    fetch('https://testapi.io/api/SurkusAPI/resource/ToDo', {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json'
-    },
+  fetch('https://testapi.io/api/SurkusAPI/resource/ToDo', {
+  method: 'POST',
+  headers: {
+    'Content-type': 'application/json'
+  },
     body: JSON.stringify({
-      Name: `${name}`,
-      LastName: `${lastName}`,
-      Email: `${email}`,
-    })
+    Name: `${name}`,
+    LastName: `${lastName}`,
+    Email: `${email}`,
+  })
   })
     .then((response) => {
       if (response.ok) {
@@ -98,3 +188,104 @@ function PostData(name, lastName, email){
     })
   }
 
+//#endregion
+
+//#region HELPER_DATACHECK (by email)
+
+function DataCheck_By_Email(data, email){
+
+  sessionStorage.setItem('bool', 'false');
+
+  let tempArray = [];
+  data.forEach(element => {
+    tempArray.push(element.Email)
+  });
+
+  console.log(tempArray)
+  console.log('Value iš formos:', typeof email.value, email.value)
+  
+  sessionStorage.setItem('bool', `${tempArray.includes(email.value)}`)
+
+  console.log("👀 CHECK 1 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
+  
+  return null;
+}
+
+//#endregion
+
+//#region HELPER_DATACHECK (by name and lastname)
+
+function DataCheck_By_NameLastName(data, name, lastName){
+
+  sessionStorage.setItem('bool2', 'false');
+
+  let tempArrayNames = [];
+  data.forEach(element => {
+    tempArrayNames.push(element.Name)
+  });
+
+  let tempArrayLastNames = [];
+  data.forEach(element => {
+    tempArrayLastNames.push(element.LastName)
+  });
+
+  console.log('Vardų array:', tempArrayNames)
+  console.log('Pavardžių array:', tempArrayLastNames)
+  console.log('Value iš formos: ', typeof name.value, name.value, 'ir', typeof lastName.value, lastName.value)
+  
+  sessionStorage.setItem('bool2', `${tempArrayNames.includes(name.value)}`)
+  sessionStorage.setItem('bool3', `${tempArrayLastNames.includes(lastName.value)}`)
+
+  console.log("👀 CHECK 1 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
+
+  PassData(name, lastName)
+
+  return null;
+}
+// #endregion
+
+//#region HELPER_PASSDATA
+
+  function PassData(name, lastName){
+    localStorage.clear();
+    localStorage.setItem('name', name.value);
+    localStorage.setItem('lastName', lastName.value);
+  }
+
+//#endregion
+
+//#region HELPER_CONSOLE.LOG(USERS)
+
+function renderData(data){
+  data.forEach(element => {
+    console.log('objektas:', element)
+    console.log('id:',element.id)
+    console.log('Name:', element.Name)
+    console.log('LastName:', element.LastName)
+    console.log('Email:', element.Email)
+    console.log('createdAt:', element.createdAt)
+  })
+}
+//#endregion
+
+//#region ASYNC_FETCH!
+
+async function AsyncFetch(){
+  const response = await fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
+  const users = await response.json();
+
+  return users;
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  let users = [];
+  
+  users = await AsyncFetch();
+  
+
+  console.log("Async_01", users)
+  console.log("Async_02", users.data)
+  //renderData(users.data)
+})
+
+//#endregion
