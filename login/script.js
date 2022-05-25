@@ -116,11 +116,15 @@ const submitLogin = document.querySelector("#submitLogin");
 
 submitLogin.addEventListener("click", event => {
 
-    event.preventDefault();
-    let name = document.querySelector("#UserName");
-    let lastName = document.querySelector("#UserLastName");
+  event.preventDefault();
+  let name = document.querySelector("#UserName");
+  let lastName = document.querySelector("#UserLastName");
 
-    MiniAsyncHelper_Log(name, lastName)
+  console.log(name, lastName)
+  console.log(name.value, lastName.value)
+
+  MiniAsyncHelper_Log(name, lastName)
+  
 })
 
 //#endregion
@@ -250,7 +254,7 @@ function DataCheck_By_NameLastName(data, name, lastName){
 
 //#endregion
 
-// #region HELPER_CONSOLE.LOG(USERS)
+//#region HELPER_CONSOLE.LOG(USERS)
 
 function renderData(data){
   data.forEach(element => {
