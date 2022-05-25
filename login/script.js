@@ -1,7 +1,4 @@
-// ############
-// # Graphics #
-// ############
-//#region 
+//#region GRAPHICS
 
 function setFormMessage(formElement, type, message){
     const messageElement = formElement.querySelector(".form_message");
@@ -61,40 +58,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //#endregion
 
-// ###############
-// # CREATE USER #
-// ###############
-//#region 
-
+//#region CREATE USER
 
 const submitCreate = document.querySelector("#submitCreate");
 
 submitCreate.addEventListener("click", event => {
 
-    event.preventDefault();
-    let name = document.querySelector("#signUpUserName");
-    let lastName = document.querySelector("#signUpUserLastName");
-    let email = document.querySelector("#signUpUserEmail")
+  event.preventDefault();
+  let name = document.querySelector("#signUpUserName");
+  let lastName = document.querySelector("#signUpUserLastName");
+  let email = document.querySelector("#signUpUserEmail")
 
-    // const dc = DuplicationCheck(email);
-    fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
+  // const dc = DuplicationCheck(email);
+  fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
     .then((response) => {
-        if (response.ok) {
+      if (response.ok) {
         console.log('👍 Connection Ok');
         return response.json();
         } else {
         console.log('👎 Connection not Ok');
         }
     })
+    .then(response => DataCheck_By_Email(response.data, email))
 
-    .then(response => DataCheck_SS(response.data, email))
-    // console.log('10000000', dc)
-    // console.log(duplicationCheck, typeof duplicationCheck)
-
-    console.log("2 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
+    console.log("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
     const localSessionStorage = sessionStorage.getItem('bool')
 
-    console.log("3 => Bool_result:", localSessionStorage);
+    console.log("👀 CHECK 3 => Bool_result:", localSessionStorage);
 
   if(localSessionStorage == 'false'){
     PostData(name.value, lastName.value, email.value);
@@ -112,24 +102,59 @@ submitCreate.addEventListener("click", event => {
   } else {
     alert("(!) Toks vartotojas jau egzistuoja!");
   }
-
-  // let name = document.querySelector("#signUpUserName");
-  // let lastName = document.querySelector("#signUpUserLastName");
-  // let email = document.querySelector("#signUpUserEmail")
-
 })
 
-function PostData(name, lastName, email){
-    fetch('https://testapi.io/api/SurkusAPI/resource/ToDo', {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      Name: `${name}`,
-      LastName: `${lastName}`,
-      Email: `${email}`,
+//#endregion
+
+//#region LOGIN
+
+const submitLogin = document.querySelector("#submitLogin");
+
+submitLogin.addEventListener("click", event => {
+
+    event.preventDefault();
+    let name = document.querySelector("#UserName");
+    let lastName = document.querySelector("#UserLastName");
+
+    fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
+    .then((response) => {
+        if (response.ok) {
+        console.log('👍 Connection Ok!');
+        return response.json();
+        } else {
+        console.log('👎 NO CONNECTION!');
+        }
     })
+
+    .then(response => DataCheck_By_NameLastName(response.data, name, lastName))
+
+    const localSessionStorage = sessionStorage.getItem('bool2')
+
+    console.log ("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
+    
+    if(localSessionStorage == 'true'){
+      alert("(!) Toks vartotojas rastas!");
+      //window.location.href = "http://127.0.0.1:5500/todo/todo.html"
+    } else {
+      alert("(!) Toks vartotojas nerastas!");
+    }
+})
+
+//#endregion
+
+//#region HELPER POSTDATA
+
+function PostData(name, lastName, email){
+  fetch('https://testapi.io/api/SurkusAPI/resource/ToDo', {
+  method: 'POST',
+  headers: {
+    'Content-type': 'application/json'
+  },
+    body: JSON.stringify({
+    Name: `${name}`,
+    LastName: `${lastName}`,
+    Email: `${email}`,
+  })
   })
     .then((response) => {
       if (response.ok) {
@@ -149,107 +174,78 @@ function PostData(name, lastName, email){
 
 //#endregion
 
-// #############################
-// # Log In with existing user #
-// #############################
-//#region 
+//#region HELPER DATACHECK (by email)
 
-const submitLogin = document.querySelector("#submitLogin");
+function DataCheck_By_Email(data, email){
 
-submitLogin.addEventListener("click", event => {
+  sessionStorage.setItem('bool', 'false');
 
-    event.preventDefault();
-    let name = document.querySelector("#UserName");
-    let lastName = document.querySelector("#UserLastName");
+  let tempArray = [];
+  data.forEach(element => {
+    tempArray.push(element.Email)
+  });
 
-    fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
-    .then((response) => {
-        if (response.ok) {
-        console.log('👍 Connection Ok');
-        return response.json();
-        } else {
-        console.log('👎 Connection not Ok');
-        }
-    })
+  console.log(tempArray)
+  console.log('Value iš formos:', typeof email.value, email.value)
+  
+  sessionStorage.setItem('bool', `${tempArray.includes(email.value)}`)
 
-    .then(response => DataCheck_SS2(response.data, name, lastName))
+  console.log("👀 CHECK 1 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
+  
+  return null;
+}
 
-    const localSessionStorage = sessionStorage.getItem('bool2')
-    console.log ("2 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
-    if(localSessionStorage == 'true'){
-      //window.location.href = "http://127.0.0.1:5500/todo/todo.html"
-      alert("(!) Toks vartotojas rastas!");
-    } else {
-      alert("(!) Toks vartotojas nerastas!");
-    }
-})
+//#endregion
 
-// #region CONSOLE.LOG(USERS)
+//#region HELPER DATACHECK (by name and lastname)
+
+function DataCheck_By_NameLastName(data, name, lastName){
+
+  sessionStorage.setItem('bool2', 'false');
+
+  let tempArrayNames = [];
+  data.forEach(element => {
+    tempArrayNames.push(element.Name)
+  });
+
+  let tempArrayLastNames = [];
+  data.forEach(element => {
+    tempArrayLastNames.push(element.LastName)
+  });
+
+  console.log('Vardų array:', tempArrayNames)
+  console.log('Pavardžių array:', tempArrayLastNames)
+  console.log('Value iš formos: ', typeof name.value, name.value, 'ir', typeof lastName.value, lastName.value)
+  
+  sessionStorage.setItem('bool2', `${tempArrayNames.includes(name.value, lastName.value)}`)
+  sessionStorage.setItem('bool2', `${tempArrayLastNames.includes(name.value, lastName.value)}`)
+
+  console.log("👀 CHECK 1 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
+
+  return null;
+}
+// #endregion
+
+// #region HELPER CONSOLE.LOG(USERS)
 fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
   .then((response) => {
       if (response.ok) {
-      console.log('👍 Connection Ok');
+      console.log('👍 Connection Ok!');
       return response.json();
       } else {
-      console.log('👎 Connection not Ok');
+      console.log('👎 NO CONNECTION!');
       }
   })
   .then(response => renderData(response.data))
   
   function renderData(data){
     data.forEach(element => {
-        console.log(element)
-        console.log(element.id)
-        console.log(element.Name)
-        console.log(element.LastName)
-        console.log(element.Email)
-        console.log(element.createdAt)
+        console.log('objektas:', element)
+        console.log('id:',element.id)
+        console.log('Name:', element.Name)
+        console.log('LastName:', element.LastName)
+        console.log('Email:', element.Email)
+        console.log('createdAt:', element.createdAt)
     })
   }
 //#endregion
-
-// async function  DuplicationCheck(email){
- 
-// }
-
-function DataCheck_SS(data, email){
-
-  sessionStorage.setItem('bool', 'false');
-
-  let tempArray = [];
-  
-  data.forEach(element => {
-    tempArray.push(element.Email)
-  });
-
-  console.log(tempArray)
-  console.log('lyginame su paduotu', email.value)
-  
-  sessionStorage.setItem('bool', `${tempArray.includes(email.value)}`)
-
-  console.log("1 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
-  
-  return null;
-}
-
-
-function DataCheck_SS2(data, name, lastName){
-
-  sessionStorage.setItem('bool2', 'false');
-
-  let tempArray = [];
-  
-  data.forEach(element => {
-    tempArray.push(element.Name)
-  });
-
-  console.log(tempArray)
-  console.log('lyginame su paduotu', name.value)
-  
-  sessionStorage.setItem('bool2', `${tempArray.includes(name.value)}`)
-
-  console.log("1 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
-  
-  return null;
-}
-// #endregion
