@@ -70,40 +70,6 @@ submitCreate.addEventListener("click", event => {
   let email = document.querySelector("#signUpUserEmail")
 
   MiniAsyncHelperReg(name, lastName, email);
-
-  // const dc = DuplicationCheck(email);
-  // fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
-  //   .then((response) => {
-  //     if (response.ok) {
-  //       console.log('👍 Connection Ok');
-  //       return response.json();
-  //       } else {
-  //       console.log('👎 Connection not Ok');
-  //       }
-  //   })
-  //   .then(response => DataCheck_By_Email(response.data, email))
-
-  //   console.log("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
-  //   const localSessionStorage = sessionStorage.getItem('bool')
-
-  //   console.log("👀 CHECK 3 => Bool_result:", localSessionStorage);
-
-  // if(localSessionStorage == 'false'){
-  //   PostData(name.value, lastName.value, email.value);
-
-  //   const loginForm = document.querySelector('#login')
-  //   const createAccountForm = document.querySelector('#createAccount')
-
-  //   alert("✅ Vartotojas sukurtas!")
-
-  //   setFormMessage(createAccountForm, "success", "Vartotojas sukurtas!")
-
-  //   loginForm.classList.remove("form-hidden");
-  //   createAccountForm.classList.add("form-hidden");
-
-  // } else {
-  //   alert("⚠️ Toks vartotojas jau egzistuoja!");
-  // }
 })
 
 //#endregion
@@ -154,14 +120,14 @@ submitLogin.addEventListener("click", event => {
     let name = document.querySelector("#UserName");
     let lastName = document.querySelector("#UserLastName");
 
-    MiniAsyncHelper(name, lastName)
+    MiniAsyncHelper_Log(name, lastName)
 })
 
 //#endregion
 
 //#region ASYNC_HELPER_LOGIN
 
-async function MiniAsyncHelper(name, lastName) {
+async function MiniAsyncHelper_Log(name, lastName) {
   
   let users = [];
   
@@ -175,7 +141,7 @@ async function MiniAsyncHelper(name, lastName) {
   
   if(localSessionStorage == 'true'){
     alert("🆔 Vartotojas rastas!");
-    // window.location.href = "todo.html"
+    window.location.href = "todo.html"
     // window.location.replace("todo.html")
 
     console.log('Perduodamas', typeof localStorage.getItem('name'))
