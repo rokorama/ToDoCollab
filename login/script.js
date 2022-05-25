@@ -92,7 +92,7 @@ submitCreate.addEventListener("click", event => {
     const loginForm = document.querySelector('#login')
     const createAccountForm = document.querySelector('#createAccount')
 
-    alert("Vartotojas sukurtas => bandykite jungtis!")
+    alert("✅ Vartotojas sukurtas!")
 
     setFormMessage(createAccountForm, "success", "Vartotojas sukurtas!")
 
@@ -100,7 +100,7 @@ submitCreate.addEventListener("click", event => {
     createAccountForm.classList.add("form-hidden");
 
   } else {
-    alert("(!) Toks vartotojas jau egzistuoja!");
+    alert("⚠️ Toks vartotojas jau egzistuoja!");
   }
 })
 
@@ -133,12 +133,12 @@ submitLogin.addEventListener("click", event => {
     console.log ("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool2'), sessionStorage.getItem('bool2'))
     
     if(localSessionStorage == 'true'){
-      alert("(!) Toks vartotojas rastas!");
+      alert("🆔 Toks vartotojas rastas!");
       window.location.href = "todo.html"
       console.log('Perduodamas', typeof localStorage.getItem('name'))
       console.log('Perduodamas', typeof localStorage.getItem('lastName'))
     } else {
-      alert("(!) Toks vartotojas nerastas!");
+      alert("⚠️ Toks vartotojas NERASTAS");
     }
 })
 
@@ -241,6 +241,7 @@ function DataCheck_By_NameLastName(data, name, lastName){
 //#endregion
 
 // #region HELPER CONSOLE.LOG(USERS)
+
 fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
   .then((response) => {
       if (response.ok) {
@@ -262,4 +263,26 @@ fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
         console.log('createdAt:', element.createdAt)
     })
   }
+//#endregion
+
+//#region ASYNC_FETCH!
+
+async function AsyncFetch(){
+  const response = await fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
+  const users = await response.json();
+
+  return users;
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  let users = [];
+  
+  users = await AsyncFetch();
+  
+
+  console.log("Async_01", users)
+  console.log("Async_02", users.data)
+  renderData(users.data)
+})
+
 //#endregion
