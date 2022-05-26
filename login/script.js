@@ -161,7 +161,7 @@ async function MiniAsyncHelper_Log(name, lastName) {
 //#region HELPER_POSTDATA
 
 function PostData(name, lastName, email){
-  fetch('https://testapi.io/api/SurkusAPI/resource/ToDo', {
+  fetch('https://testapi.io/api/SurkusAPI/resource/Users', {
   method: 'POST',
   headers: {
     'Content-type': 'application/json'
@@ -271,7 +271,7 @@ function renderData(data){
 //#region ASYNC_FETCH!
 
 async function AsyncFetch(){
-  const response = await fetch('https://testapi.io/api/SurkusAPI/resource/ToDo/')
+  const response = await fetch('https://testapi.io/api/SurkusAPI/resource/Users/')
   const users = await response.json();
 
   return users;

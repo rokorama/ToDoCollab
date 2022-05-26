@@ -48,10 +48,9 @@ function saveEntry() {
     let entryType = document.getElementById('newEntryType').value;
     let entryContent = document.getElementById('newEntryContent').value;
     let entryEndDate = document.getElementById('newEntryEndDate').value;
-    // placeholder value (maybe change to number?)
     let entryUserId = combinedNames
 
-    fetch('https://testapi.io/api/SurkusAPI/resource/ToDoList', {
+    fetch('https://testapi.io/api/rokorama/resource/toDoTasks', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
@@ -60,7 +59,8 @@ function saveEntry() {
             type: entryType,
             content: entryContent,
             endDate: entryEndDate,
-            userName: entryUserId
+            userId: entryUserId,
+            completed: false
         })
     })
     .then((response) => {
@@ -78,8 +78,7 @@ function saveEntry() {
 
 function getEntries() {
     outputContainer.innerHTML = ''
-    // see if i can filter via URL parameters
-    fetch('https://testapi.io/api/SurkusAPI/resource/ToDoList')
+    fetch('https://testapi.io/api/rokorama/resource/toDoTasks')
         .then((res) => {
             if (res.ok) {
                 return res.json();
@@ -87,7 +86,7 @@ function getEntries() {
         })
         .then(result => {
             resultJson = result.data;
-            return resultJson.filter((entry) => entry.userName === combinedNames
+            return resultJson.filter((entry) => entry.userId === combinedNames
             )
         })
         .then(filteredData => render(filteredData)); 
@@ -188,14 +187,25 @@ function render(entries) {
             discardChangesButton.style.display = 'none'
         })
 
-        div.append(type, content, endDate, editedType, editedContent, editedEndDate, editButton, deleteEntryButton, saveChangesButton, discardChangesButton);
+        const completedCheckbox = document.createElement('input');
+        completedCheckbox.id = 'completedCheckbox'
+        completedCheckbox.type = 'checkbox'
+        const completedLabel = document.createElement('label')
+        completedLabel.setAttribute('for', 'completedCheckbox')
+        completedLabel.textContent = 'Completed?'
+
+        div.append(type, content, endDate,
+                   editedType, editedContent, editedEndDate,
+                   editButton, deleteEntryButton,
+                   saveChangesButton, discardChangesButton,
+                   completedCheckbox, completedLabel);
         div.setAttribute('id', entry.id);
         outputContainer.append(div);
     })
 }
 
 async function editEntry(entryId, newType, newContent, newEndDate) {
-    const edit = await fetch(`https://testapi.io/api/SurkusAPI/resource/ToDoList/${entryId}`, {
+    const edit = await fetch(`https://testapi.io/api/rokorama/resource/toDoTasks/${entryId}`, {
         method: 'PUT',
         headers: {
             'Content-type': 'application/json'
@@ -213,7 +223,7 @@ async function editEntry(entryId, newType, newContent, newEndDate) {
 }
 
 async function deleteEntry(entryId) {
-    const del = await fetch(`https://testapi.io/api/SurkusAPI/resource/ToDoList/${entryId}`, {
+    const del = await fetch(`https://testapi.io/api/rokorama/resource/toDoTasks/${entryId}`, {
         method: 'DELETE'
     })
 
