@@ -1,6 +1,13 @@
 const outputContainer = document.querySelector('.entryContainer')
 const addButton = document.getElementById('addButton')
 
+//place somewhere else?
+const userFirstName = localStorage.getItem('name')
+const userLastName = localStorage.getItem('lastName')
+const combinedNames = `${userFirstName}${userLastName}`
+
+document.getElementById('pageHeader').textContent = `Tasks - ${userFirstName} ${userLastName}`
+
 addButton.addEventListener('click', () => {
     addButton.style.display = 'none'
     newEntryInput.style.display = 'inline-block'
@@ -18,10 +25,8 @@ saveButton.addEventListener('click', () => saveEntry())
 
 const dateInput = document.getElementById('newEntryEndDate')
 dateInput.addEventListener('blur', () => {
-    console.log(dateInput.value)
     let date1 = new Date(dateInput.value)
     let date2 = new Date()
-    console.log(date1, date2)
     if (date1 < date2) {
         alert("Cannot assign task to a past date!")
         dateInput.innerHTML = ""
@@ -33,7 +38,7 @@ function saveEntry() {
     let entryContent = document.getElementById('newEntryContent').value;
     let entryEndDate = document.getElementById('newEntryEndDate').value;
     // placeholder value (maybe change to number?)
-    let entryUserId = '2'
+    let entryUserId = combinedNames
 
     fetch('https://testapi.io/api/SurkusAPI/resource/ToDoList', {
         method: 'POST',
@@ -53,7 +58,6 @@ function saveEntry() {
         }
     })
     .then((result) => {
-        console.log(result);
         entryType = '';
         entryContent = '';
         entryEndDate = null;
@@ -63,13 +67,19 @@ function saveEntry() {
 
 function getEntries() {
     outputContainer.innerHTML = ''
+    // see if i can filter via URL parameters
     fetch('https://testapi.io/api/SurkusAPI/resource/ToDoList')
         .then((res) => {
             if (res.ok) {
                 return res.json();
             }
         })
-        .then(result => render(result.data)); 
+        .then(result => {
+            resultJson = result.data;
+            return resultJson.filter((entry) => entry.userName === combinedNames
+            )
+        })
+        .then(filteredData => render(filteredData)); 
 }
 
 function render(entries) {
@@ -170,7 +180,6 @@ function render(entries) {
         div.append(type, content, endDate, editedType, editedContent, editedEndDate, editButton, deleteEntryButton, saveChangesButton, discardChangesButton);
         div.setAttribute('id', entry.id);
         outputContainer.append(div);
-
     })
 }
 
@@ -201,7 +210,5 @@ async function deleteEntry(entryId) {
         getEntries()
     }
 }
-
-
 
 getEntries()

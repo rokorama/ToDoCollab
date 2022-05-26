@@ -145,7 +145,7 @@ async function MiniAsyncHelper_Log(name, lastName) {
   
   if(localSessionStorage == 'true'){
     alert("🆔 Vartotojas rastas!");
-    window.location.href = "todo.html"
+    window.location.href = "../todo/todo.html"
     // window.location.replace("todo.html")
 
     console.log('Perduodamas', typeof localStorage.getItem('name'))
