@@ -6,7 +6,18 @@ const userFirstName = localStorage.getItem('name')
 const userLastName = localStorage.getItem('lastName')
 const combinedNames = `${userFirstName}${userLastName}`
 
+// text for header at top of the page
 document.getElementById('pageHeader').textContent = `Tasks - ${userFirstName} ${userLastName}`
+
+const logoutButton = document.getElementById('logoutButton')
+logoutButton.addEventListener('click', () => {
+    const confirmLogout = confirm("Do you wish to log out?");
+    if (confirmLogout) {
+        localStorage.removeItem('name');
+        localStorage.removeItem('lastName');
+        window.location.href = '../index.html'
+    }
+})
 
 addButton.addEventListener('click', () => {
     addButton.style.display = 'none'

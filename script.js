@@ -5,9 +5,9 @@ function checkLocalStorage() {
     const lastName = localStorage.getItem('lastName')
 
     if(name == null || lastName == null ){
-        window.location.href = "../login/login.html"
+        window.location.href = "login/login.html"
     } else {
-        window.location.href = "../todo/todo.html"
+        window.location.href = "todo/todo.html"
     }
 }
 
