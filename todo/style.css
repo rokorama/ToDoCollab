@@ -18,13 +18,13 @@ body{
 }
 
 button{
-    width: 75%;
+    width: 95%;
     padding: 0.5rem 1rem;
     margin: 0.2rem;
     font-weight: bold;
     font-size: 1.1rem;
     color: #ffffff;
-    border: 2px solid var(--color-primary-dark);
+    border: 2px solid var(--color-primary);
     border-radius: var(--border-radius);
 
     outline: none;
@@ -33,13 +33,13 @@ button{
 }
 
 #addButton{
-    width: 100%;
+    width: 95%;
     padding: 0.5rem 1rem;
     margin: 0.2rem;
     font-weight: bold;
     font-size: 1.1rem;
     color: #ffffff;
-    border: 2px solid var(white);
+    /* border: 2px solid var(white); */
     border-radius: var(--border-radius);
 
     outline: none;
@@ -50,7 +50,7 @@ button{
 
 }
 
-#addButton{
+#addButton:hover{
     background-color: var(--color-primary-dark);
 }
 
@@ -70,11 +70,11 @@ button:hover{
     padding: 1rem;
     box-sizing: border-box;
     border-radius: var(--border-radius);
-    border: 10px solid var(--color-primary-dark);
+    
     outline: none;
     background: #eeeeee;
     transition: background 0.2s, border-color 0.2s;
-    border-radius: var(--border-radius);
+    
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
     
 }
@@ -91,7 +91,7 @@ button:hover{
     border-radius: var(--border-radius);
 
 }
-
+#newEntryInput,
 .entryItem {
 
     /* border: 1px solid skyblue; */
@@ -107,9 +107,33 @@ button:hover{
     padding: 1rem;
     box-sizing: border-box;
     border-radius: var(--border-radius);
-    border: 1px solid #dddddd;
+    
     outline: none;
     background: #eeeeee;
     transition: background 0.2s, border-color 0.2s;
-    border: 10px solid var(--color-primary-dark);
+    
 }
+
+#newEntryType,
+#newEntryContent,
+#newEntryEndDate{
+    font-display: block;
+    width: 100%;
+    padding: 0.75rem;
+    box-sizing: border-box;
+    border-radius: var(--border-radius);
+    border: 1px solid #dddddd;
+    outline: none;
+    
+    transition: background 0.2s, border-color 0.2s;
+}
+
+
+#newEntryType:focus,
+#newEntryContent:focus,
+#newEntryEndDate:focus
+{
+    border-color: var(--color-primary);
+    background: #ffffff;
+}
+
