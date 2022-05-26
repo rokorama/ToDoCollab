@@ -10,15 +10,18 @@
 <body>
         <h2 id="pageHeader"></h2>
         <div class="newEntryContainer">
-            <button type="button" id="addButton">ADD TASK</button>
+            <div class="AddForm">
+                <button type="button" id="addButton">ADD TASK</button>
+            </div>
+            
             <div id="newEntryInput" style="display:none">
-                <p>Type</p>
-                <input type="text" name="newEntryType" id="newEntryType">
+                <!-- <p>Type</p> -->
+                <input type="text" name="newEntryType" id="newEntryType" autofocus placeholder="Type:">
                 <br>
-                <p>Content</p>
-                <input type="text" name="newEntryContent" id="newEntryContent">
+                <!-- <p>Content</p> -->
+                <input type="text" name="newEntryContent" id="newEntryContent" placeholder="Content:">
                 <br>
-                <p>End date</p>
+                <!-- <p>End date</p> -->
                 <input type="date" name="newEntryEndDate" id="newEntryEndDate">
                 <br>
                 <button id="saveEntry">SAVE</button>
