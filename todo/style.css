@@ -45,23 +45,17 @@ button{
     outline: none;
     cursor: pointer;
     background-color: var(--color-primary);
-
-
-
 }
 
+button:hover,
 #addButton:hover{
     background-color: var(--color-primary-dark);
 }
 
 
-button:hover{
-    background-color: var(--color-primary-dark);
-}
-
-
 .newEntryContainer {
-    margin: auto;
+    align-self:flex-start;
+    margin: 5px;
     min-width: 22%;
     width: 33%;
     border-radius: var(--border-radius);
@@ -97,17 +91,12 @@ button:hover{
     /* border: 1px solid skyblue; */
     min-width: 30%;
     width: auto;
+    height: auto;
     border-radius: var(--border-radius);
-    font-display: block;
-
-    align-content: center;
-    text-align: center;
 
     margin: 0.5rem;
     padding: 1rem;
-    box-sizing: border-box;
-    border-radius: var(--border-radius);
-    
+
     outline: none;
     background: #eeeeee;
     transition: background 0.2s, border-color 0.2s;
