@@ -1,6 +1,13 @@
 const outputContainer = document.querySelector('.entryContainer')
 const addButton = document.getElementById('addButton')
 
+//place somewhere else?
+const userFirstName = localStorage.getItem('name')
+const userLastName = localStorage.getItem('lastName')
+const combinedNames = `${userFirstName}${userLastName}`
+
+document.getElementById('pageHeader').textContent = `Tasks - ${userFirstName} ${userLastName}`
+
 addButton.addEventListener('click', () => {
     addButton.style.display = 'none'
     newEntryInput.style.display = 'inline-block'
@@ -31,7 +38,7 @@ function saveEntry() {
     let entryContent = document.getElementById('newEntryContent').value;
     let entryEndDate = document.getElementById('newEntryEndDate').value;
     // placeholder value (maybe change to number?)
-    let entryUserId = '1'
+    let entryUserId = combinedNames
 
     fetch('https://testapi.io/api/SurkusAPI/resource/ToDoList', {
         method: 'POST',
@@ -69,7 +76,8 @@ function getEntries() {
         })
         .then(result => {
             resultJson = result.data;
-            return resultJson.filter((entry) => entry.userName === '1')
+            return resultJson.filter((entry) => entry.userName === combinedNames
+            )
         })
         .then(filteredData => render(filteredData)); 
 }
