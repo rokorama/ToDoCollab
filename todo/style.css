@@ -8,9 +8,15 @@ body{
 
     margin: 0;
     height: 100vh;
+<<<<<<< HEAD
     display: flex;
     align-items: center;
     justify-content: center;
+=======
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+>>>>>>> 617e089 (Revert CSS back to the final design, adjust HTML)
     font-size: 18px;
     background: var(--color-primary);
     background-size: cover;

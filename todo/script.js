@@ -20,6 +20,7 @@ logoutButton.addEventListener('click', () => {
     }
 })
 
+/** */
 addButton.addEventListener('click', () => {
     addButton.style.display = 'none'
     newEntryInput.style.display = 'inline-block'
