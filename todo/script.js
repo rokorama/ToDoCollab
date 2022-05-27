@@ -267,6 +267,7 @@ async function toggleCompletedStatus(entryId, entry, completedStatus) {
     
     if (edit) {
         setTimeout(1000)
+        // see if rendering everything after each tick can be avoided
         getEntries()
     }
 }
