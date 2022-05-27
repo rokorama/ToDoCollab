@@ -96,8 +96,6 @@ function getEntries() {
 
 function render(entries) {
     entries.forEach(entry => {
-        console.log(entry.completed)
-
         const div = document.createElement('div');
         div.className = 'entryItem';
 
@@ -178,11 +176,10 @@ function render(entries) {
         saveChangesButton.addEventListener('click', (event) => {
             const elementId = event.target.parentElement.id;
 
-            let updatedType = editedType.value
-            let updatedContent = editedContent.value
-            let updatedEndDate = editedEndDate.value
-            console.log(updatedType, updatedContent, updatedEndDate)
-            editEntry(elementId, updatedType, updatedContent, updatedEndDate)
+            entry.type = editedType.value
+            entry.content = editedContent.value
+            entry.endDate = editedEndDate.value
+            editEntry(elementId, entry)
         })
 
         discardChangesButton.addEventListener('click', () => {
@@ -205,9 +202,11 @@ function render(entries) {
             const elementId = event.target.parentElement.id;
 
             if (completedCheckbox.checked) {
-                toggleCompletedStatus(elementId, entry, true)
+                entry.completed = false;
+                toggleCompletedStatus(elementId, entry)
             } else {
-                toggleCompletedStatus(elementId, entry, false)
+                entry.completed = true;
+                toggleCompletedStatus(elementId, entry)
             }
         })
 
@@ -225,32 +224,10 @@ function render(entries) {
             div.setAttribute('id', entry.id);
             activeEntryContainer.append(div);
         }
-
-        // TODO - add rendering for completed tasks here
     })
 }
 
-async function editEntry(entryId, newType, newContent, newEndDate) {
-    const edit = await fetch(`https://testapi.io/api/rokorama/resource/toDoTasks/${entryId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-            type: newType,
-            content: newContent,
-            endDate: newEndDate,
-            userId: entry.userId,
-            completed: entry.completed
-        })
-    })
-    
-    if (edit) {
-        getEntries()
-    }
-}
-
-async function toggleCompletedStatus(entryId, entry, completedStatus) {
+async function editEntry(entryId, entry) {
     const edit = await fetch(`https://testapi.io/api/rokorama/resource/toDoTasks/${entryId}`, {
         method: 'PUT',
         headers: {
@@ -261,14 +238,40 @@ async function toggleCompletedStatus(entryId, entry, completedStatus) {
             content: entry.content,
             endDate: entry.endDate,
             userId: entry.userId,
-            completed: completedStatus
+            completed: entry.completed
+        })
+    })
+    
+    if (edit) {
+        getEntries()
+    }
+}
+
+async function toggleCompletedStatus(entryId, entry) {
+    const edit = await fetch(`https://testapi.io/api/rokorama/resource/toDoTasks/${entryId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            type: entry.type,
+            content: entry.content,
+            endDate: entry.endDate,
+            userId: entry.userId,
+            completed: entry.completed
         })
     })
     
     if (edit) {
         setTimeout(1000)
-        // see if rendering everything after each tick can be avoided
-        getEntries()
+        const div = document.getElementById(entryId);
+        if (div.parentElement === activeEntryContainer) {
+            activeEntryContainer.removeChild(div);
+            completedEntryContainer.append(div);
+        } else {
+            completedEntryContainer.removeChild(div);
+            activeEntryContainer.append(div);
+        }
     }
 }
 
