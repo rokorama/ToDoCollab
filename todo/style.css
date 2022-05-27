@@ -2,7 +2,16 @@
     border: 1px solid gold;
 }
 
-.entryContainer {
+.activeEntryContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 1px solid green;
+    width: 75%;
+    margin: auto;
+}
+
+.activeEntryContainer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

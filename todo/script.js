@@ -1,4 +1,5 @@
-const outputContainer = document.querySelector('.entryContainer')
+const activeEntryContainer = document.querySelector('.activeEntryContainer')
+const completedEntryContainer = document.querySelector('.completedEntryContainer')
 const addButton = document.getElementById('addButton')
 
 //place somewhere else?
@@ -77,7 +78,8 @@ function saveEntry() {
 }
 
 function getEntries() {
-    outputContainer.innerHTML = ''
+    activeEntryContainer.innerHTML = ''
+    completedEntryContainer.innerHTML = ''
     fetch('https://testapi.io/api/rokorama/resource/toDoTasks')
         .then((res) => {
             if (res.ok) {
@@ -94,6 +96,8 @@ function getEntries() {
 
 function render(entries) {
     entries.forEach(entry => {
+        console.log(entry.completed)
+
         const div = document.createElement('div');
         div.className = 'entryItem';
 
@@ -136,6 +140,16 @@ function render(entries) {
 
         const editButton = document.createElement('button');
         editButton.textContent = 'EDIT';
+
+        const completedCheckbox = document.createElement('input');
+        completedCheckbox.id = 'completedCheckbox';
+        completedCheckbox.type = 'checkbox';
+        completedCheckbox.checked = entry.completed;
+
+        const completedLabel = document.createElement('label');
+        completedLabel.setAttribute('for', 'completedCheckbox');
+        completedLabel.textContent = 'Completed';
+
         editButton.addEventListener('click', () => {
             editedType.style.display = 'block'
             editedContent.style.display = 'block'
@@ -187,20 +201,32 @@ function render(entries) {
             discardChangesButton.style.display = 'none'
         })
 
-        const completedCheckbox = document.createElement('input');
-        completedCheckbox.id = 'completedCheckbox'
-        completedCheckbox.type = 'checkbox'
-        const completedLabel = document.createElement('label')
-        completedLabel.setAttribute('for', 'completedCheckbox')
-        completedLabel.textContent = 'Completed?'
+        completedCheckbox.addEventListener('change', (event) => {
+            const elementId = event.target.parentElement.id;
 
-        div.append(type, content, endDate,
-                   editedType, editedContent, editedEndDate,
-                   editButton, deleteEntryButton,
-                   saveChangesButton, discardChangesButton,
-                   completedCheckbox, completedLabel);
-        div.setAttribute('id', entry.id);
-        outputContainer.append(div);
+            if (completedCheckbox.checked) {
+                toggleCompletedStatus(elementId, entry, true)
+            } else {
+                toggleCompletedStatus(elementId, entry, false)
+            }
+        })
+
+        if (entry.completed) {
+            div.append(type, content, endDate, deleteEntryButton,
+                       completedCheckbox, completedLabel)
+            div.setAttribute('id', entry.id);
+            completedEntryContainer.append(div)
+        } else {
+            div.append(type, content, endDate,
+                    editedType, editedContent, editedEndDate,
+                    editButton, deleteEntryButton,
+                    saveChangesButton, discardChangesButton,
+                    completedCheckbox, completedLabel);
+            div.setAttribute('id', entry.id);
+            activeEntryContainer.append(div);
+        }
+
+        // TODO - add rendering for completed tasks here
     })
 }
 
@@ -214,6 +240,8 @@ async function editEntry(entryId, newType, newContent, newEndDate) {
             type: newType,
             content: newContent,
             endDate: newEndDate,
+            userId: entry.userId,
+            completed: entry.completed
         })
     })
     
@@ -221,6 +249,28 @@ async function editEntry(entryId, newType, newContent, newEndDate) {
         getEntries()
     }
 }
+
+async function toggleCompletedStatus(entryId, entry, completedStatus) {
+    const edit = await fetch(`https://testapi.io/api/rokorama/resource/toDoTasks/${entryId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            type: entry.type,
+            content: entry.content,
+            endDate: entry.endDate,
+            userId: entry.userId,
+            completed: completedStatus
+        })
+    })
+    
+    if (edit) {
+        setTimeout(1000)
+        getEntries()
+    }
+}
+
 
 async function deleteEntry(entryId) {
     const del = await fetch(`https://testapi.io/api/rokorama/resource/toDoTasks/${entryId}`, {
