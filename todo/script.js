@@ -20,6 +20,20 @@ logoutButton.addEventListener('click', () => {
     }
 })
 
+document.querySelectorAll(".inputContainer").forEach(inputElement => {
+    console.log(inputElement.className)
+
+    let inputField = inputElement.querySelector('.inputTextField')
+    inputField.addEventListener("blur", () => {
+        if (inputField.value.length === 0) {
+            setInputError(inputElement, "Field cannot be blank!");
+        }
+    });
+    inputElement.addEventListener("input", () => {
+        clearInputError(inputElement)
+    })
+})
+
 addButton.addEventListener('click', () => {
     addButton.style.display = 'none'
     newEntryInput.style.display = 'inline-block'
@@ -275,7 +289,6 @@ async function toggleCompletedStatus(entryId, entry) {
     }
 }
 
-
 async function deleteEntry(entryId) {
     const del = await fetch(`https://testapi.io/api/rokorama/resource/toDoTasks/${entryId}`, {
         method: 'DELETE'
@@ -284,6 +297,25 @@ async function deleteEntry(entryId) {
     if (del) {
         getEntries()
     }
+}
+
+function setInputError(inputElement, message) {
+    console.log('error lol')
+    inputElement.classList.add("form_input-error");
+    let errorMessage = document.createElement('p');
+    errorMessage.className = 'form_input-error-message'
+    errorMessage.textContent = message;
+    inputElement.append(errorMessage);
+    let childElements = inputElement.getElementsByTagName('input');
+    childElements[0].className = 'form_input-error';
+}
+
+function clearInputError(inputElement) {
+    inputElement.classList.remove("form_input-error")
+    let elementToRemove = inputElement.getElementsByTagName('p');
+    console.log(elementToRemove)
+    elementToRemove[0].remove();
+
 }
 
 getEntries()

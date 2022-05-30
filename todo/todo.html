@@ -7,7 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body> 
         <h2 id="pageHeader"></h2>
         <button type="button" id="logoutButton">LOG OUT</button>
         <div class="newEntryContainer">
@@ -17,13 +17,22 @@
             
             <div id="newEntryInput" style="display:none">
                 <!-- <p>Type</p> -->
-                <input type="text" name="newEntryType" id="newEntryType" autofocus placeholder="Type:">
+                <!-- <input type="text" name="newEntryType" id="newEntryType" autofocus placeholder="Type:" class="form_input">
+                <div class="form_input-error-message"></div> -->
+                <div class="inputContainer">
+                    <input type="text" name="newEntryType" id="newEntryType" class="inputTextField" autofocus placeholder="Type:">
+                </div>
                 <br>
                 <!-- <p>Content</p> -->
-                <input type="text" name="newEntryContent" id="newEntryContent" placeholder="Content:">
+                <div class="inputContainer">
+                    <input type="text" name="newEntryContent" id="newEntryContent" class="inputTextField" placeholder="Content:">
+                </div>
+                
                 <br>
                 <!-- <p>End date</p> -->
-                <input type="date" name="newEntryEndDate" id="newEntryEndDate">
+                <input type="date" name="newEntryEndDate" id="newEntryEndDate" placeholder="End date" class="form_input">
+                <div class="form_input-error-message"></div>
+                
                 <br>
                 <button id="saveEntry">SAVE</button>
                 <button id="cancelEntry">CANCEL</button>
