@@ -6,8 +6,12 @@ body{
     --color-success: rgb(75, 181, 68);
     --border-radius: 4px;
 
-    margin: 0;
+    margin: 0 auto;
+    padding-top: 2em;
+    padding-bottom: 2em;
     height: 100vh;
+    width: 70%;
+
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -27,10 +31,17 @@ button{
     color: #ffffff;
     border: 2px solid var(--color-primary);
     border-radius: var(--border-radius);
-
+    
     outline: none;
     cursor: pointer;
     background-color: var(--color-primary);
+}
+
+h2 {
+    color: #ffffff;
+    font-weight: bold;
+    width: 60%;
+    text-align: center;
 }
 
 #addButton{
@@ -53,15 +64,30 @@ button:hover,
     background-color: var(--color-primary-dark);
 }
 
+.headerContainer {
+    width: 100%;
+    display: flex;
+    padding-bottom: 3em;
+}
+
+.headerText {
+    width: 75%;
+    display: inline-flex
+}
+
+.headerLogoutButton {
+    width: 25%;
+    display: inline-flex;
+}
+
 
 .newEntryContainer {
     align-self:flex-start;
     margin: 5px;
     min-width: 22%;
-    width: 33%;
+    width: 50%;
     border-radius: var(--border-radius);
     font-display: block;
-    width: 20%;
     padding: 1rem;
     box-sizing: border-box;
     border-radius: var(--border-radius);
@@ -71,29 +97,21 @@ button:hover,
     transition: background 0.2s, border-color 0.2s;
     
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
-    
+
 }
 
-.activeEntryContainer {
+.entryContainer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
     /* border: 1px solid crimson; */
-    width: auto;
+    width: 100%;
+    min-height: 3em;
     margin: auto;
     padding: auto;
 
-    border-radius: var(--border-radius);
-}
-
-.completedEntryContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    /* border: 1px solid crimson; */
-    width: auto;
-    margin: auto;
-    padding: auto;
+    background-color: var(--color-primary-dark);
 
     border-radius: var(--border-radius);
 }

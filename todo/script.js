@@ -1,5 +1,5 @@
-const activeEntryContainer = document.querySelector('.activeEntryContainer')
-const completedEntryContainer = document.querySelector('.completedEntryContainer')
+const activeEntryContainer = document.querySelector('#activeEntryContainer')
+const completedEntryContainer = document.querySelector('#completedEntryContainer')
 const addButton = document.getElementById('addButton')
 let errorInInput = false;
 
@@ -131,14 +131,17 @@ function render(entries) {
         
         const editedType = document.createElement('input');
         editedType.type = 'text'
+        editedType.className = 'inputTextField'
         editedType.style.display = 'none'
         
         const editedContent = document.createElement('input');
         editedContent.type = 'text'
+        editedContent.className = 'inputTextField'
         editedContent.style.display = 'none'
-
+        
         const editedEndDate = document.createElement('input');
         editedEndDate.type = 'date'
+        editedEndDate.className = 'inputTextField'
         editedEndDate.style.display = 'none'
 
         const deleteEntryButton = document.createElement('button');
@@ -233,14 +236,27 @@ function render(entries) {
             completedEntryContainer.append(div)
         } else {
             div.append(type, content, endDate,
-                    editedType, editedContent, editedEndDate,
-                    editButton, deleteEntryButton,
-                    saveChangesButton, discardChangesButton,
-                    completedCheckbox, completedLabel);
-            div.setAttribute('id', entry.id);
-            activeEntryContainer.append(div);
+                editedType, editedContent, editedEndDate,
+                editButton, deleteEntryButton,
+                saveChangesButton, discardChangesButton,
+                completedCheckbox, completedLabel);
+                div.setAttribute('id', entry.id);
+                activeEntryContainer.append(div);
+            }
         }
-    })
+    )
+
+    if (activeEntryContainer.childNodes.length === 0) {
+        let emptyContainerMessage = document.createElement('p');
+        emptyContainerMessage.textContent = "Nothing to see here."
+        activeEntryContainer.append(emptyContainerMessage)
+
+    }
+    if (completedEntryContainer.childNodes.length === 0) {
+        let emptyContainerMessage = document.createElement('p');
+        emptyContainerMessage.textContent = "Nothing to see here."
+        completedEntryContainer.append(emptyContainerMessage)
+    }
 }
 
 async function editEntry(entryId, entry) {

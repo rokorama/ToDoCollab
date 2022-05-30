@@ -7,14 +7,16 @@
     <title>ToDo - Main page</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body> 
-        <h2 id="pageHeader"></h2>
-        <button type="button" id="logoutButton">LOG OUT</button>
+<body>
+    <div class="headerContainer">
+        <div class="headerText"><h1 id="pageHeader"></h2></div>
+        <div class="headerLogoutButton"><button type="button" id="logoutButton">LOG OUT</button></div>
+    </div>
+
         <div class="newEntryContainer">
             <div class="AddForm">
                 <button type="button" id="addButton">ADD TASK</button>
             </div>
-            
             <div id="newEntryInput" style="display:none">
                 <div class="inputContainer">
                     <input type="text" name="newEntryType" id="newEntryType" class="inputTextField" autofocus placeholder="Type:">
@@ -33,10 +35,10 @@
                 <button id="cancelEntry">CANCEL</button>
             </div>
         </div>
-    <h2>Active tasks</h2>
-    <div class="activeEntryContainer"></div>
-    <h2>Completed tasks</h2>
-    <div class="completedEntryContainer"></div>
+    <h2>ACTIVE TASKS</h2>
+    <div id="activeEntryContainer" class="entryContainer"></div>
+    <h2>COMPLETED TASKS</h2>
+    <div id="completedEntryContainer" class="entryContainer"></div>
 </body>
 <script src="script.js"></script>
 </html
