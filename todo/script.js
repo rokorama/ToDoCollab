@@ -300,21 +300,22 @@ async function deleteEntry(entryId) {
 }
 
 function setInputError(inputElement, message) {
-    console.log('error lol')
-    inputElement.classList.add("form_input-error");
-    let errorMessage = document.createElement('p');
-    errorMessage.className = 'form_input-error-message'
-    errorMessage.textContent = message;
-    inputElement.append(errorMessage);
-    let childElements = inputElement.getElementsByTagName('input');
-    childElements[0].className = 'form_input-error';
+    // console.log('error lol')
+    // inputElement.classList.add("form_input-error");
+    // let errorMessage = document.createElement('p');
+    // errorMessage.className = 'form_input-error-message'
+    // errorMessage.textContent = message;
+    // inputElement.append(errorMessage);
+    // let childElements = inputElement.getElementsByTagName('input');
+    // childElements[0].className = 'form_input-error';
+    let errorMessage = inputElement.querySelector('#inputErrorMessage')
+    errorMessage.textContent = message
 }
 
 function clearInputError(inputElement) {
-    inputElement.classList.remove("form_input-error")
-    let elementToRemove = inputElement.getElementsByTagName('p');
-    console.log(elementToRemove)
-    elementToRemove[0].remove();
+    let errorMessage = inputElement.querySelector('#inputErrorMessage');
+    console.log(errorMessage)
+    errorMessage.textContent = ''
 
 }
 
