@@ -46,8 +46,11 @@ cancelButton.addEventListener('click', () => {
     
 })
 
+let errorInInput = false;
+
 const saveButton = document.getElementById('saveEntry')
-saveButton.addEventListener('click', () => saveEntry())
+// saveButton.addEventListener('click', () => saveEntry())
+saveButton.addEventListener('click', () => console.log(errorInInput))
 
 const dateInput = document.getElementById('newEntryEndDate')
 dateInput.addEventListener('blur', () => {
@@ -300,21 +303,17 @@ async function deleteEntry(entryId) {
 }
 
 function setInputError(inputElement, message) {
-    // console.log('error lol')
-    // inputElement.classList.add("form_input-error");
-    // let errorMessage = document.createElement('p');
-    // errorMessage.className = 'form_input-error-message'
-    // errorMessage.textContent = message;
-    // inputElement.append(errorMessage);
-    // let childElements = inputElement.getElementsByTagName('input');
-    // childElements[0].className = 'form_input-error';
     let errorMessage = inputElement.querySelector('#inputErrorMessage')
+    errorInInput = true;
+    // sort out CSS for the error
+    // input box borders, too
     errorMessage.textContent = message
 }
 
 function clearInputError(inputElement) {
+    errorInInput = false;
+    // sort out CSS
     let errorMessage = inputElement.querySelector('#inputErrorMessage');
-    console.log(errorMessage)
     errorMessage.textContent = ''
 
 }

@@ -17,24 +17,19 @@
             
             <div id="newEntryInput" style="display:none">
                 <!-- <p>Type</p> -->
-                <!-- <input type="text" name="newEntryType" id="newEntryType" autofocus placeholder="Type:" class="form_input">
-                <div class="form_input-error-message"></div> -->
                 <div class="inputContainer">
                     <input type="text" name="newEntryType" id="newEntryType" class="inputTextField" autofocus placeholder="Type:">
                     <p id="inputErrorMessage" class="inputErrorMessage"></p>
                 </div>
                 <br>
-                <!-- <p>Content</p> -->
                 <div class="inputContainer">
                     <input type="text" name="newEntryContent" id="newEntryContent" class="inputTextField" placeholder="Content:">
                     <p id="inputErrorMessage" class="inputErrorMessage"></p>
                 </div>
-                
-                <br>
-                <!-- <p>End date</p> -->
-                <input type="date" name="newEntryEndDate" id="newEntryEndDate" placeholder="End date" class="form_input">
-                <div class="form_input-error-message"></div>
-                
+                <div class="inputContainer">
+                    <input type="text" name="newEntryEndDate" id="newEntryEndDate" class="inputTextField" placeholder="End date" onfocus="(this.type='date')">
+                    <p id="inputErrorMessage" class="inputErrorMessage"></p>
+                </div>
                 <br>
                 <button id="saveEntry">SAVE</button>
                 <button id="cancelEntry">CANCEL</button>
