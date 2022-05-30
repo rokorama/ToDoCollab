@@ -45,11 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
       setFormMessage(loginForm, "error", "Neteisingas vardas/pavardė")
   });
 /**
-* Implementation lacking
+* Documentation bellow:
 */
   document.querySelectorAll(".form_input").forEach(inputElement => {
       inputElement.addEventListener("blur", event => {
-          if (event.target.id === "signUpUserName" && event.target.value.length > 0 && event.target.value.length < 5) {
+          if (event.target.id === "signUpUserName" && event.target.value.length > 0 && event.target.value.length < 3) {
               setInputError(inputElement, "Lauke turi būti bent 3 simboliai!");
           }
       });
@@ -57,10 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
           clearInputError(inputElement)
       })
   })
-
+  // Alerts user if 
   document.querySelectorAll(".form_input").forEach(inputElement => {
     inputElement.addEventListener("blur", event => {
-        if (event.target.id === "signUpUserLastName" && event.target.value.length > 0 && event.target.value.length < 5) {
+        if (event.target.id === "signUpUserLastName" && event.target.value.length > 0 && event.target.value.length < 3) {
             setInputError(inputElement, "Lauke turi būti bent 3 simboliai!");
         }
     });
@@ -70,7 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll(".form_input").forEach(inputElement => {
       inputElement.addEventListener("blur", event => {
-          if (event.target.id === "signUpUserEmail" && event.target.value.length > 0 && event.target.value.length < 5) {
+        let EtaArray = [];
+
+        for (let i = 0; i < event.target.id.length; i++){
+          EtaArray.push(event.target.id.value[i])
+        }
+          if (event.target.id === "signUpUserEmail" && event.target.value.length > 0 && event.target.value.length < 3) {
               setInputError(inputElement, "Lauke turi būti @ simbolis!");
           }
       });
@@ -170,34 +175,34 @@ function checkForEtaSymbol(email){
 */
 async function MiniAsyncHelperReg(name, lastName, email) {
 
-let users = [];
+  let users = [];
 
-users = await AsyncFetch();
+  users = await AsyncFetch();
 
 
-DataCheck_By_Email(users.data, email)
+  DataCheck_By_Email(users.data, email)
 
-console.log("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
-const localSessionStorage = sessionStorage.getItem('bool')
+  console.log("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
+  const localSessionStorage = sessionStorage.getItem('bool')
 
-console.log("👀 CHECK 3 => Bool_result:", localSessionStorage);
+  console.log("👀 CHECK 3 => Bool_result:", localSessionStorage);
 
-if(localSessionStorage == 'false'){
-  PostData(name.value, lastName.value, email.value);
+  if(localSessionStorage == 'false'){
+    PostData(name.value, lastName.value, email.value);
 
-  const loginForm = document.querySelector('#login')
-  const createAccountForm = document.querySelector('#createAccount')
+    const loginForm = document.querySelector('#login')
+    const createAccountForm = document.querySelector('#createAccount')
 
-  alert("✅ Vartotojas sukurtas!")
+    alert("✅ Vartotojas sukurtas!")
 
-  setFormMessage(createAccountForm, "success", "Vartotojas sukurtas!")
+    setFormMessage(createAccountForm, "success", "Vartotojas sukurtas!")
 
-  loginForm.classList.remove("form-hidden");
-  createAccountForm.classList.add("form-hidden");
+    loginForm.classList.remove("form-hidden");
+    createAccountForm.classList.add("form-hidden");
 
-} else {
-  alert("⚠️ Toks vartotojas jau egzistuoja!");
-}
+  } else {
+    alert("⚠️ Toks vartotojas jau egzistuoja!");
+  }
 
 }
 
