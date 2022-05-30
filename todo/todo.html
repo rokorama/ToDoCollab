@@ -4,33 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ToDo - Main page</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-        <h2 id="pageHeader"></h2>
-        <button type="button" id="logoutButton">LOG OUT</button>
+    <div class="headerContainer">
+        <div class="headerText"><h1 id="pageHeader"></h2></div>
+        <div class="headerLogoutButton"><button type="button" id="logoutButton">LOG OUT</button></div>
+    </div>
+
         <div class="newEntryContainer">
             <div class="AddForm">
                 <button type="button" id="addButton">ADD TASK</button>
             </div>
-            
             <div id="newEntryInput" style="display:none">
-                <!-- <p>Type</p> -->
-                <input type="text" name="newEntryType" id="newEntryType" autofocus placeholder="Type:">
-                <br>
-                <!-- <p>Content</p> -->
-                <input type="text" name="newEntryContent" id="newEntryContent" placeholder="Content:">
-                <br>
-                <!-- <p>End date</p> -->
-                <input type="date" name="newEntryEndDate" id="newEntryEndDate">
+                <div class="inputContainer">
+                    <input type="text" name="newEntryType" id="newEntryType" class="inputTextField" autofocus placeholder="Type:">
+                    <p id="inputErrorMessage" class="form_input-error-message"></p>
+                </div>
+                <div class="inputContainer">
+                    <input type="text" name="newEntryContent" id="newEntryContent" class="inputTextField" placeholder="Content:">
+                    <p id="inputErrorMessage" class="form_input-error-message"></p>
+                </div>
+                <div class="inputContainer">
+                    <input type="text" name="newEntryEndDate" id="newEntryEndDate" class="inputTextField" placeholder="End date" onfocus="(this.type='date')">
+                    <p id="inputErrorMessage" class="form_input-error-message"></p>
+                </div>
                 <br>
                 <button id="saveEntry">SAVE</button>
                 <button id="cancelEntry">CANCEL</button>
             </div>
         </div>
-    <div class="entryContainer">
-    </div>
+    <h2>ACTIVE TASKS</h2>
+    <div id="activeEntryContainer" class="entryContainer"></div>
+    <h2>COMPLETED TASKS</h2>
+    <div id="completedEntryContainer" class="entryContainer"></div>
 </body>
 <script src="script.js"></script>
 </html

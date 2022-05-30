@@ -346,6 +346,7 @@ data.forEach(element => {
 * @returns JS.objects array
 */
 async function AsyncFetch(){
+
 const response = await fetch('https://testapi.io/api/SurkusAPI/resource/Users/')
 const users = await response.json();
 
