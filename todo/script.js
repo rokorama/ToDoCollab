@@ -1,6 +1,7 @@
 const activeEntryContainer = document.querySelector('.activeEntryContainer')
 const completedEntryContainer = document.querySelector('.completedEntryContainer')
 const addButton = document.getElementById('addButton')
+let errorInInput = false;
 
 //place somewhere else?
 const userFirstName = localStorage.getItem('name')
@@ -21,8 +22,6 @@ logoutButton.addEventListener('click', () => {
 })
 
 document.querySelectorAll(".inputContainer").forEach(inputElement => {
-    console.log(inputElement.className)
-
     let inputField = inputElement.querySelector('.inputTextField')
     inputField.addEventListener("blur", () => {
         if (inputField.value.length === 0) {
@@ -43,14 +42,14 @@ const cancelButton = document.getElementById('cancelEntry')
 cancelButton.addEventListener('click', () => {
     addButton.style.display = 'block'
     newEntryInput.style.display = 'none'
-    
 })
 
-let errorInInput = false;
 
 const saveButton = document.getElementById('saveEntry')
-// saveButton.addEventListener('click', () => saveEntry())
-saveButton.addEventListener('click', () => console.log(errorInInput))
+saveButton.addEventListener('click', () => {
+    if (!errorInInput) {
+        saveEntry()}
+    })
 
 const dateInput = document.getElementById('newEntryEndDate')
 dateInput.addEventListener('blur', () => {
@@ -86,7 +85,7 @@ function saveEntry() {
             return response.json();
         }
     })
-    .then((result) => {
+    .then(() => {
         entryType = '';
         entryContent = '';
         entryEndDate = null;
@@ -303,8 +302,10 @@ async function deleteEntry(entryId) {
 }
 
 function setInputError(inputElement, message) {
-    let errorMessage = inputElement.querySelector('#inputErrorMessage')
     errorInInput = true;
+    let errorMessage = inputElement.querySelector('#inputErrorMessage');
+    let inputField = inputElement.querySelector('.inputTextField');
+    inputField.classList.add('form_input-error');
     // sort out CSS for the error
     // input box borders, too
     errorMessage.textContent = message
@@ -313,9 +314,10 @@ function setInputError(inputElement, message) {
 function clearInputError(inputElement) {
     errorInInput = false;
     // sort out CSS
+    let inputField = inputElement.querySelector('.inputTextField');
+    inputField.classList.remove('form_input-error');
     let errorMessage = inputElement.querySelector('#inputErrorMessage');
     errorMessage.textContent = ''
-
 }
 
 getEntries()

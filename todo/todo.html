@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ToDo - Main page</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body> 
@@ -16,19 +16,17 @@
             </div>
             
             <div id="newEntryInput" style="display:none">
-                <!-- <p>Type</p> -->
                 <div class="inputContainer">
                     <input type="text" name="newEntryType" id="newEntryType" class="inputTextField" autofocus placeholder="Type:">
-                    <p id="inputErrorMessage" class="inputErrorMessage"></p>
+                    <p id="inputErrorMessage" class="form_input-error-message"></p>
                 </div>
-                <br>
                 <div class="inputContainer">
                     <input type="text" name="newEntryContent" id="newEntryContent" class="inputTextField" placeholder="Content:">
-                    <p id="inputErrorMessage" class="inputErrorMessage"></p>
+                    <p id="inputErrorMessage" class="form_input-error-message"></p>
                 </div>
                 <div class="inputContainer">
                     <input type="text" name="newEntryEndDate" id="newEntryEndDate" class="inputTextField" placeholder="End date" onfocus="(this.type='date')">
-                    <p id="inputErrorMessage" class="inputErrorMessage"></p>
+                    <p id="inputErrorMessage" class="form_input-error-message"></p>
                 </div>
                 <br>
                 <button id="saveEntry">SAVE</button>
