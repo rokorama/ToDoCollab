@@ -1,4 +1,4 @@
-//#region GRAPHICS
+//#region ERROR_MESSAGE_HELPERS
 
 function setFormMessage(formElement, type, message){
   const messageElement = formElement.querySelector(".form_message");
@@ -17,7 +17,9 @@ function clearInputError(inputElement){
   inputElement.classList.remove("form_input-error")
   inputElement.parentElement.querySelector(".form_input-error-message").textContent= "";
 }
+//#endregion
 
+//#region HIDE-SHOW_FORM HELPERS
 /**
 * This EventListener depending on the button (login/register)
 * that is pressed adds class= 'hidden' to login form, and removes it from
@@ -44,9 +46,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setFormMessage(loginForm, "error", "Neteisingas vardas/pavardė")
   });
+//#endregion
+
+//#region ERRORLOG_BY_FIELD_HELPER
+
 /**
 * Documentation bellow:
 */
+  // Alerts user if input field "signUpUserName" has less than 3 characters entered;
   document.querySelectorAll(".form_input").forEach(inputElement => {
       inputElement.addEventListener("blur", event => {
           if (event.target.id === "signUpUserName" && event.target.value.length > 0 && event.target.value.length < 3) {
@@ -57,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
           clearInputError(inputElement)
       })
   })
-  // Alerts user if 
+  // Alerts user if input field "signUpUserLastName" has less than 3 characters entered;
   document.querySelectorAll(".form_input").forEach(inputElement => {
     inputElement.addEventListener("blur", event => {
         if (event.target.id === "signUpUserLastName" && event.target.value.length > 0 && event.target.value.length < 3) {
@@ -67,15 +74,11 @@ document.addEventListener("DOMContentLoaded", () => {
     inputElement.addEventListener("input", event => {
         clearInputError(inputElement)
     })
-
+    // Alerts user if input field "signUpUserEmail" has a "@" character;
+    // This check uses external function CheckForEtaSymbol_ReturnBool();
     document.querySelectorAll(".form_input").forEach(inputElement => {
       inputElement.addEventListener("blur", event => {
-        let EtaArray = [];
-
-        for (let i = 0; i < event.target.id.length; i++){
-          EtaArray.push(event.target.id.value[i])
-        }
-          if (event.target.id === "signUpUserEmail" && event.target.value.length > 0 && event.target.value.length < 3) {
+          if (event.target.id === "signUpUserEmail" && CheckForEtaSymbol_ReturnBool(event.target.value)) {
               setInputError(inputElement, "Lauke turi būti @ simbolis!");
           }
       });
@@ -83,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
           clearInputError(inputElement)
       })
   })
-    
 })
 
 });
@@ -112,7 +114,7 @@ MiniAsyncHelperReg(name, lastName, email);
 
 //#endregion
 
-//#region 
+//#region NAMEandLASTNAME_INPUT_FIELD_CHECK_HELPER
 /**
  * This method uses simple if logic to check for input lenght and reload the page if it
  * does not meet required ammount of symbols (hardcoded is 3)
@@ -132,7 +134,7 @@ function checkLenght(name, lastName){
 
 //#endregion
 
-//#region 
+//#region EMAIL_INPUT_FIELD_CHECK_HELPER
 /**
  * This method:
  *              (1) converts email string into an array of symbols;
@@ -154,9 +156,33 @@ function checkForEtaSymbol(email){
     location.reload(true)
   }
 }
+/**
+ * This function is quite similar to the function above;
+ * This function takes in value of input field "signUpUserEmail" and
+ *                            (1) converts email string into an array of symbols;
+ *                            (2) uses includes() method to determine if there is @ symbol in an array
+ *                            (3) Returns bool value into the if function that requested it
+ * @param {String} email 
+ * @returns BoolValue
+ */
+function CheckForEtaSymbol_ReturnBool(email){
+
+  let EtaArray = [];
+
+  for (let i = 0; i < email.length; i++){
+    EtaArray.push(email[i])
+  }
+  console.log('Pašto array string')
+  console.log(EtaArray)
+
+  if(!EtaArray.includes('@')){
+    return true
+  } else {
+    return false
+  }
+}
 
 //#endregion
-
 
 //#region ASYNC_HELPER_REG
 
