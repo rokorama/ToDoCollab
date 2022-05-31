@@ -8,7 +8,7 @@
  * in local storage (they are reset (nulled) on logout
  * and set during login) 
  */
- function checkLocalStorage() {
+ function CheckLocalStorage() {
     const name = localStorage.getItem('name')
     const lastName = localStorage.getItem('lastName')
 
@@ -22,4 +22,4 @@
     }
 }
 
-checkLocalStorage();
+CheckLocalStorage();
