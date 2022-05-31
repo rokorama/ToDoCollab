@@ -45,18 +45,47 @@ document.addEventListener("DOMContentLoaded", () => {
       setFormMessage(loginForm, "error", "Neteisingas vardas/pavardė")
   });
 /**
-* Implementation lacking
+* Documentation bellow:
 */
   document.querySelectorAll(".form_input").forEach(inputElement => {
       inputElement.addEventListener("blur", event => {
-          if (event.target.id === "signUpUserName" && event.target.value.length > 0 && event.target.value.length < 5) {
-              setInputError(inputElement, "Lauke turi būti bent 5 simboliai!");
+          if (event.target.id === "signUpUserName" && event.target.value.length > 0 && event.target.value.length < 3) {
+              setInputError(inputElement, "Lauke turi būti bent 3 simboliai!");
           }
       });
       inputElement.addEventListener("input", event => {
           clearInputError(inputElement)
       })
   })
+  // Alerts user if 
+  document.querySelectorAll(".form_input").forEach(inputElement => {
+    inputElement.addEventListener("blur", event => {
+        if (event.target.id === "signUpUserLastName" && event.target.value.length > 0 && event.target.value.length < 3) {
+            setInputError(inputElement, "Lauke turi būti bent 3 simboliai!");
+        }
+    });
+    inputElement.addEventListener("input", event => {
+        clearInputError(inputElement)
+    })
+
+    document.querySelectorAll(".form_input").forEach(inputElement => {
+      inputElement.addEventListener("blur", event => {
+        let EtaArray = [];
+
+        for (let i = 0; i < event.target.id.length; i++){
+          EtaArray.push(event.target.id.value[i])
+        }
+          if (event.target.id === "signUpUserEmail" && event.target.value.length > 0 && event.target.value.length < 3) {
+              setInputError(inputElement, "Lauke turi būti @ simbolis!");
+          }
+      });
+      inputElement.addEventListener("input", event => {
+          clearInputError(inputElement)
+      })
+  })
+    
+})
+
 });
 
 //#endregion
@@ -75,10 +104,59 @@ let name = document.querySelector("#signUpUserName");
 let lastName = document.querySelector("#signUpUserLastName");
 let email = document.querySelector("#signUpUserEmail")
 
+checkLenght(name, lastName)
+checkForEtaSymbol(email)
+
 MiniAsyncHelperReg(name, lastName, email);
 })
 
 //#endregion
+
+//#region 
+/**
+ * This method uses simple if logic to check for input lenght and reload the page if it
+ * does not meet required ammount of symbols (hardcoded is 3)
+ * @param {string} name 
+ * @param {string} lastName 
+ */
+function checkLenght(name, lastName){
+  if(name.value.length<3){
+    alert(`Vartotojo vardas turi būti bent 3 raidžių ilgio; įvestis: "${name.value}" yra tik ${name.value.length} simbolio(-ų)  ilgio!`);
+    location.reload(true)
+  }
+  if(lastName.value.length<3){
+    alert(`Vartotojo pavardė turi būti bent 3 raidžių ilgio; įvestis: "${lastName.value}" yra tik ${lastName.value.length} simbolio(-ų) ilgio!`);
+    location.reload(true)
+  }
+}
+
+//#endregion
+
+//#region 
+/**
+ * This method:
+ *              (1) converts email string into an array of symbols;
+ *              (2) uses includes() method to determine if there is @ symbol in an array
+ * @param {string} email 
+ */
+function checkForEtaSymbol(email){
+
+  let EtaArray = [];
+
+  for (let i = 0; i < email.value.length; i++){
+    EtaArray.push(email.value[i])
+  }
+  console.log('Pašto array string')
+  console.log(EtaArray)
+
+  if(!EtaArray.includes('@')){
+    alert(`Pašto įvestis: "${email.value}" neturi "@" simbolio!`);
+    location.reload(true)
+  }
+}
+
+//#endregion
+
 
 //#region ASYNC_HELPER_REG
 
@@ -97,33 +175,34 @@ MiniAsyncHelperReg(name, lastName, email);
 */
 async function MiniAsyncHelperReg(name, lastName, email) {
 
-let users = [];
+  let users = [];
 
-users = await AsyncFetch();
+  users = await AsyncFetch();
 
-DataCheck_By_Email(users.data, email)
 
-console.log("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
-const localSessionStorage = sessionStorage.getItem('bool')
+  DataCheck_By_Email(users.data, email)
 
-console.log("👀 CHECK 3 => Bool_result:", localSessionStorage);
+  console.log("👀 CHECK 2 => IF_result:", typeof sessionStorage.getItem('bool'), sessionStorage.getItem('bool'))
+  const localSessionStorage = sessionStorage.getItem('bool')
 
-if(localSessionStorage == 'false'){
-  PostData(name.value, lastName.value, email.value);
+  console.log("👀 CHECK 3 => Bool_result:", localSessionStorage);
 
-  const loginForm = document.querySelector('#login')
-  const createAccountForm = document.querySelector('#createAccount')
+  if(localSessionStorage == 'false'){
+    PostData(name.value, lastName.value, email.value);
 
-  alert("✅ Vartotojas sukurtas!")
+    const loginForm = document.querySelector('#login')
+    const createAccountForm = document.querySelector('#createAccount')
 
-  setFormMessage(createAccountForm, "success", "Vartotojas sukurtas!")
+    alert("✅ Vartotojas sukurtas!")
 
-  loginForm.classList.remove("form-hidden");
-  createAccountForm.classList.add("form-hidden");
+    setFormMessage(createAccountForm, "success", "Vartotojas sukurtas!")
 
-} else {
-  alert("⚠️ Toks vartotojas jau egzistuoja!");
-}
+    loginForm.classList.remove("form-hidden");
+    createAccountForm.classList.add("form-hidden");
+
+  } else {
+    alert("⚠️ Toks vartotojas jau egzistuoja!");
+  }
 
 }
 
