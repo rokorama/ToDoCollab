@@ -307,7 +307,7 @@ if(localSessionStorage == 'true'){
 * @param {string} email 
 */
 function PostData(name, lastName, email){
-fetch('https://testapi.io/api/SurkusAPI/resource/Users', {
+fetch('https://localhost:44374/User/AddUser', {
 method: 'POST',
 headers: {
   'Content-type': 'application/json'
