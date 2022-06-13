@@ -307,7 +307,7 @@ if(localSessionStorage == 'true'){
 * @param {string} email 
 */
 function PostData(name, lastName, email){
-fetch('https://localhost:44374/User/AddUser', {
+fetch('https://localhost:44346/RegisterUser', {
 method: 'POST',
 headers: {
   'Content-type': 'application/json'
@@ -453,6 +453,7 @@ data.forEach(element => {
 async function AsyncFetch(){
 
 const response = await fetch('https://testapi.io/api/SurkusAPI/resource/Users/')
+//const response = await fetch('https://localhost:44346/GetAllUsers')
 const users = await response.json();
 
 return users;
